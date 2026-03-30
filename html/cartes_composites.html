@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartes composites</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- A FAIRE -->
+    <!-- METTRE LE BOOTSTRAP EN OPTION DANS LE SELECTEUR
+     TERTILES A PRINT QUAND UNE SAISON ET UN REGIME -->
+    <!-- Ajouter les composites synthetiques multi-saisons-->
+    <!-- Ajouter une option pour visualiser les violins plots "moyenne France" !
+        violins plots : possiblent pour une saisons et all regimes uniquement(pour tas ou pr et independamment du domaine (uniquement pour la France
+        mais on peut print pour tous les odmaines car précisé dans le titre que c'est pour la France))-->
+
+    <!-- Début du Cadre Blanc -->
+    <div class="main-container">
+        <!-- Menu de navigation -->
+        <nav>
+            <ul>
+                <li><a href="menu.html">Accueil - Documentation</a></li>
+                <li><a href="cartes_composites.html">Cartes composites</a></li>
+                <li><a href="suivi_quotidien.html">Suivi quotidien</a></li>
+                <li><a href="suivi_climatique.html">Suivi climatique</a></li>
+            </ul>
+        </nav>
+
+        <!-- 1. Titre Général -->
+        <h1 class="main-title">Cartes Composites des Régimes de Temps Toutes Saisons</h1>
+
+        <div class="selector-wrapper">
+            <!-- 2. Titre du Sélecteur -->
+            <div class="selector-label">Sélectionnez un composite</div>
+            <!-- Barre horizontale (Sélecteur) -->
+            <div class="slider-bar">
+
+                <div class="form-group">
+                    <label for="regime">Régime</label>
+                    <select id="regime" name="regime">
+                        <option value="" disabled selected>-- Choix --</option>
+                        <option value="AT">Atlantic Trough</option>
+                        <option value="SB">Scandinavian Blocking</option>
+                        <option value="AR">Atlantic Ridge</option>
+                        <option value="ZO">Zonal</option>
+                        <option value="EB">European Blocking</option>
+                        <option value="ST">Scandinavian Trough</option>
+                        <option value="GB">Greenland Blocking</option>
+                        <option value="All">All Regimes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="saison">Saison</label>
+                    <select id="saison" name="saison">
+                        <option value="" disabled selected>-- Choix --</option>
+                        <option value="DJF">DJF</option>
+                        <option value="MAM">MAM</option>
+                        <option value="JJA">JJA</option>
+                        <option value="SON">SON</option>
+                        <option value="All">Multi-saisons</option>
+                    </select>
+                </div>
+                <!--toujours superposer la pmer et mettre une option pour le bootstrap)-->
+                <div class="form-group">
+                    <label for="parametre">Paramètre</label>
+                    <select id="parametre" name="parametre">
+                        <option value="" disabled selected>-- Choix --</option>
+                        <option value="tas">T2m</option>
+                        <option value="pr">Précipitations</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="domaine">Domaine</label>
+                    <select id="domaine" name="domaine">
+                        <option value="" disabled selected>-- Choix --</option>
+                        <option value="Gl">Global</option>
+                        <option value="Fr">France</option>
+                        <option value="Eu">Europe</option>
+                    </select>
+                </div>
+                <button type="button" id="btnValider">Valider</button>
+            </div>
+
+            <!-- Message d'erreur (caché par défaut) -->
+            <p id="error-msg" class="error-msg">Désolé, cette image n'existe pas encore.</p>
+            <!-- Image de résultat (cachée par défaut) -->
+            <img id="image-composite" src="" alt="Composite Regimes de temps">
+            <!-- NOUVELLE IMAGE : Climatology (Cachée par défaut) -->
+            <img id="image-violin" src="" alt="">
+
+        </div>
+    </div>
+    <!-- La Modale (Zoom) - À placer avant le script -->
+    <div id="imageModal" class="image-modal">
+        <span class="close-btn">&times;</span>
+        <img class="modal-content" id="imgZoomed" alt="Vue agrandie"> <!--alt="Vue agrandie" est-ce vraiment utile ?-->
+    </div>
+    <!-- en javascript, recuperer dans des variables la saison, le regime, le param et le domaine puis rediriger vers la bonne image lorsqu'on appuie sur valider-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- 1. Sélection des éléments ---
+            const btnValider = document.getElementById('btnValider');
+            const imgElement = document.getElementById('image-composite');
+            const imgViolin = document.getElementById('image-violin'); // Nouvelle image (violins plots) CSS A MODIFIER
+            const errorElement = document.getElementById('error-msg');
+            
+            // Éléments de la modale (Zoom)
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('imgZoomed');
+            const closeBtn = document.querySelector('.close-btn');
+
+            // --- 2. Fonction de validation (Clic sur le bouton) ---
+            if (btnValider) {
+                btnValider.addEventListener('click', function() {
+                    // Récupérer les valeurs
+                    const saison = document.getElementById('saison').value;
+                    const regime = document.getElementById('regime').value;
+                    const param = document.getElementById('parametre').value;
+                    const domaine = document.getElementById('domaine').value;
+
+                    // Vérifier que tout est sélectionné
+                    if (!saison || !regime || !param || !domaine) {
+                        alert("Veuillez sélectionner un régime, une saison, un paramètre et un domaine !");
+                        return;
+                    }
+
+                    // Construire le nom du fichier
+                    const nomFichier = `../archives/images_composites/${saison}_${regime}_${param}_${domaine}.png`; 
+
+                    const afficherViolin = (saison !== "All" && regime === "All");
+
+                    if (afficherViolin) {
+                        // Construire le nom du fichier des violins plot
+                        const nomFichierClim = `../archives/images_composites/Violin_${saison}_All_${param}_${domaine}.png`;
+                        
+                        imgViolin.src = nomFichierClim;
+                        // On prépare l'affichage, il se fera dans le onload ci-dessous
+                    }
+
+                    // Réinitialiser l'affichage
+                    imgElement.style.display = "none";
+                    errorElement.style.display = "none";
+                    
+                    // Assigner la source et gérer l'affichage
+                    imgElement.src = nomFichier;
+
+                    // Une fois l'image chargée, on l'affiche
+                    imgElement.onload = function() {
+                        imgElement.style.display = "block";
+                        // On s'assure que le curseur indique qu'on peut cliquer
+                        imgElement.style.cursor = "zoom-in";
+                        errorElement.style.display = "none";
+                    };
+
+                    if (afficherViolin) {
+                            imgViolin.onload = function() {
+                                imgViolin.style.display = "block";
+                                imgViolin.style.cursor = "zoom-in";
+                                errorElement.style.display = "none";
+                            }
+                        }
+
+                    // Gestion d'erreur
+                    imgElement.onerror = function() {
+                        imgElement.style.display = "none";
+                        errorElement.style.display = "block";
+                        console.error("Image non trouvée : " + nomFichier);
+                    };
+                });
+            }
+
+            // --- 3. Fonction de Zoom (Clic sur l'image) ---
+            if (imgElement && modal) {
+                imgElement.addEventListener('click', function() {
+                    // On ouvre la modale seulement si l'image est visible
+                    if (this.style.display === "block" && this.src) {
+                        modal.style.display = "flex"; // Flex pour centrer parfaitement
+                        modal.style.justifyContent = "center";
+                        modal.style.alignItems = "center";
+                        modalImg.src = this.src; // Copie la source de la petite image vers la grande
+                    }
+                });
+            }
+
+            //Fonction zoom sur violins plots (clic sur image)
+            if (imgViolin && modal) {
+                imgViolin.addEventListener('click', function() {
+                    // On ouvre la modale seulement si l'image est visible
+                    if (this.style.display === "block" && this.src) {
+                        modal.style.display = "flex"; // Flex pour centrer parfaitement
+                        modal.style.justifyContent = "center";
+                        modal.style.alignItems = "center";
+                        modalImg.src = this.src; // Copie la source de la petite image vers la grande
+                    }
+                });
+            }
+
+            // --- 4. Fermeture de la modale ---
+            
+            // Fermer avec la croix
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    modal.style.display = "none";
+                });
+            }
+
+            // Fermer en cliquant sur le fond noir (en dehors de l'image)
+            if (modal) {
+                modal.addEventListener('click', function(event) {
+                    if (event.target === modal) {
+                        modal.style.display = "none";
+                    }
+                });
+            }
+
+            // Fermer avec la touche Echap
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape" && modal && modal.style.display === "flex") {
+                    modal.style.display = "none";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+<!--<link rel="stylesheet" href="style.css">-->

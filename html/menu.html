@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Documentation</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <!-- Début du Cadre Blanc -->
+    <div class="main-container">
+        <!-- Menu de navigation -->
+        <nav>
+            <ul>
+                <li><a href="menu.html">Accueil - Documentation</a></li>
+                <li><a href="cartes_composites.html">Cartes composites</a></li>
+                <li><a href="suivi_quotidien.html">Suivi quotidien</a></li>
+                <li><a href="suivi_climatique.html">Suivi climatique</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contenu -->
+         
+        <!-- Titre Principal -->
+        <h1 class="main-title">Suivi des Régimes de Temps Toutes Saisons</h1>
+
+        <img class="image-composite" src="../archives/images_documentation/figure_cluster_init.png" width="1000px">
+
+        <h3>Accès aux pages de visualisation de composites et de monitoring des régimes de temps "toutes saisons" :</h3>
+        <ul class="custom-ul">
+            <li>
+                <h4>Consulter les cartes composites des régimes de temps toutes saisons à travers l'onglet "Cartes composites"</h4>
+            </li>
+            <li>
+                <h4>Suivi quotidien des régimes de temps toutes saisons à travers l'onglet "Suivi quotidien"</h4>
+            </li>
+            <li>
+                <h4>Suivi climatique des régimes de temps toutes saisons à travers l'onglet "Suivi climatique"</h4>
+            </li>
+        </ul>
+
+        <h3>Présentation de la méthode d'obtention des régimes de temps "toutes saisons" :</h3>
+        <p>
+            Période considérée : 1960-2025<br>
+            Résolution : 1°<br>
+            Domaine : latitude (30, 90); longitude (-80, 40)<br>
+            Pas de temps : journalier<br>
+            Données : ERA5 Z500
+        </p>
+        <p>
+            <strong>Etape 1 :</strong> Nous commençons par le calcul de la moyenne des 66 années pour chaque pas de temps de 24h calendaires sur la période 1960-2025.<br>
+            Par exemple, considerons le calcul de la moyenne du 15 janvier 2010 à 09UTC : Nous calculons la moyenne des 15 janvier à 09UTC de toutes les années sur la période 1960-2025. Nous répétons ensuite cette methode pour tous les jours de notre période (<strong><em>Fig 1.1</em></strong>).<br>
+            Nous calculons une moyenne glissante sur 60 jours afin d'établir une moyenne mobile climatologique sur 60 jours pour la période 1960-2025 (<strong><em>Fig 1.2</em></strong>). <br>
+            La moyenne glissante est calculée en faisant une moyenne sur 60 jours (30 jours avant la date calculée, 30 jours après la date calculée) en prenant comme valeurs pour chaque jour les valeurs moyennées.<br>
+            Les valeurs moyennes quotidiennes de Z500 sont pondérées par le cosinus de la latitude afin de prendre en compte le fait qu'à maille égale, on ne represente pas la même surface.
+        </p>
+        <figure>
+            <figcaption style="margin-bottom : 1rem;">Figure 1.1 ; 1.2 ; 1.3</figcaption>
+            <img class="image-composite" src="../archives/images_documentation/figure1.png" width="1000px">
+        </figure>
+        <p>
+            <strong>Etape 2 :</strong> Nous procèdons ensuite au calcul des anomalies de Z500.<br>
+            Pour cela, nous soustrayons notre moyenne glissante calculée à l'Etape 1 à la valeur qui correspond au jour dont on calcule l'anomalie (<strong><em>Fig 1.3</em></strong>). <br>
+            On applique ensuite un filtre passe-bas, qui correspond à une moyenne glissante sur 10 jours (-5 jours, +5 jours), aux anomalies pour faire ressortir les variabilités de basses frequences (au-delà des échelles de temps synoptiques) et supprimer l'influence de la variabilité à l'echelle synoptique telles que les perturbations des moyennes latitudes (<strong><em>Fig 2.1</em></strong>).<br>
+            Enfin, nous éliminons la tendance des données pour tenir compte de l'augmentation de la valeur moyenne de Z500 due à la dilatation thermique de la basse troposphère à cause du rechauffement climatique (4,7 m par décennie ; <strong><em>Fig 3</em></strong>). Cette tendance est éliminée en supprimant la tendance linéaire de la valeur moyenne quotidienne de Z500 (pondérée par le cosinus de la latitude) dans le domaine des régimes (qui correspond ici à 8,1m pour le 2010/01/15).<br>
+            On obtient ainsi nos anomalies detrendées (<strong><em>Fig 2.2</em></strong>). <br>
+            Nous adoptons cette approche, plutôt que d'éliminer simplement la tendance de chaque point de grille, afin de conserver les tendances résultant des changements de circulation qui peuvent se projeter sur, ou être causées par, les tendances de la fréquence des régimes.
+        </p>
+        <figure>
+            <figcaption style="margin-bottom : 1rem;">Figure 2.1 et 2.2</figcaption>
+            <img class="image-composite" src="../archives/images_documentation/figure2.png" width="700px">
+        </figure>
+        <figure>
+            <figcaption style="margin-bottom : 1rem;">Figure 3</figcaption>
+            <img class="image-composite" src="../archives/images_documentation/figure3.png" width="500px">
+        </figure>
+        <p>
+            <strong>Etape 3 :</strong> Normalisation des anomalies de Z500.<br>
+            Les anomalies étant beaucoup plus importantes et possédant une plus grande variabilité en hiver qu'en été, nous normalisons les anomalies de Z500 afin de retirer cette variabilité d'amplitude saisonnière tout en préservant les variations spatiales (<strong><em>Fig 4</em></strong>).<br>
+            Cela permet de se focaliser sur la configuration spatiale des flux dans le champ d'anomalies.
+            Pour normaliser ces anomalies, nous divisons les anomalies de Z500 par un scalaire calendaire représentant la variabilité climatologique des anomalies de Z500 du jour correspondant (<strong><em>Fig 5</em></strong>).<br>
+            Ce scalaire calendaire, calculé sur le domaine, est defini comme la moyenne spatiale de la déviation standard glissante climatologique sur 30 jours (15 jours avant, 15 jours après).
+            <!--Toutes les anomalies sont ponderées par le cosinus de la latitude afin de prendre en compte le fait qu'à maille égale on ne represente pas la même surface. --> 
+        </p>
+        <figure>
+            <figcaption style="margin-bottom : 1rem;">Figure 4 et 5</figcaption>
+            <img class="image-composite" src="../archives/images_documentation/figure4.png" width="375px"><img class="image-composite" src="../archives/images_documentation/figure5.png" width="500px">
+        </figure>
+        <p>
+            <strong>Etape 4 :</strong> Nous effectuons une ACP (Analyse en Composantes Principales) sur les anomalies normalisées de Z500 suivi d'un k-means clustering dans l'espace des phases engendré par les 12 composantes principales. Cela nous permet d'identifier les patterns dominants auxquels correspondent les 7 régimes de temps (centroïdes issus des k-means). <br>
+            Le clustering attribue chaque jour à un cluster en minimisant la distance intra et inter-cluster dans l'espace des phases. À partir des centroïdes, nous pouvons retrouver les composites de Z500 associées et les nommer.<br>
+            De plus, nous plaçons tous les jours étant plus proche de 0 que d'un centroïde dans une nouvelle categorie appelée "No Regime". Nous obtenons ainsi une première classification issue uniquement des k-means (<strong><em>Fig 6</em></strong>).
+        </p>
+        <figure>
+            <figcaption style="margin-bottom : 1rem;">Figure 6</figcaption>
+            <img class="image-composite" src="../archives/images_documentation/figure6.png" width="1000px">
+        </figure>
+        <p>
+            <strong>Etape 5 :</strong> Calcul du Weather Régime Index (Indice de Régime) Iwr.<br>
+            L'approche par l'indice de régime permet de visualiser l'aspect temporel de la présence d'un régime dans une situation donnée.<br>
+            Nous commençons par projeter l'anomalie normalisée de la journée sur les 7 clusters d'anomalies issus du k-means. Nous obtenons ainsi une mesure scalaire de la corrélation spatiale du champ d'anomalies instantanées à l'instant t (en chaque point de grille de latitude et de longitude dans le domaine des composantes principales) avec le champ d'anomalies moyen du cluster pour le régime (c'est-à-dire les anomalies moyennes du cluster)<br>
+            Nous calculons ensuite un indice de régime adimensionnel pour chaque régime. Le calcul de l'indice se fait à partir des anomalies des projections (par rapport à la projection moyenne climatologique) normalisées par l'écart-type climatologique de la projection à partir de la formule suivante :
+            \[
+            I_{wr}(t) = \frac{P_{wr}(t) - \overline{P_{wr}}}{\sqrt{\frac{1}{N} \sum_{i=1}^{N} \left[ P_{wr}(t) - \overline{P_{wr}} \right]^2}}
+            \]
+            Nous obtenons ainsi un indice pour chaque régime au cours du temps.
+        </p>
+        <p>
+            <strong>Etape 6 :</strong> Classification issue des indices.<br>
+            Nous utilisons les indices pour déterminer le régime dominant pour chaque jour de la période (<strong><em>Fig 7</em></strong>).<br>
+            L'idée est d'abord de déterminer les régimes qui sont actifs. Pour être considéré comme actif, il faut que l'indice correspondant au régime soit superieur à 0.9 pendant minimum 5 jours. On autorise cependant l'indice à descendre ponctuellemnt sous le seuil de 0.9 durant ces 5 jours.<br>
+            Parmis les régimes actifs (il peut y en avoir plusieurs en même temps), le régime dominant est celui dont l'indice est le plus fort. Cependant, si l'indice du régime n'est pas le plus fort pendant au minimum 3 jours, alors le régime n'est pas considéré comme dominant.<br>
+            Cela nous donne la classification par indice de régime qui sera ensuite utilisée pour les composites.
+        </p>
+        <figure>
+            <figcaption style="margin-bottom : 1rem;">Figure 7</figcaption>
+            <img class="image-composite" src="../archives/images_documentation/figure_WRI.png" width="1100px">
+        </figure>
+
+        <h3>Méthode d'obtention des composites :</h3>
+        <p>
+            <strong>Etape 1 :</strong> Affichage des composites. <br>
+            Nous avons commencé par établir pour chaque jour l'anomalie du champ considéré et nous avons normalisé cette anomalie afin de pouvoir la traiter convenablement.<br>
+            À partir de l'indice de régime Iwr qui permet de déterminer le régime actif, nous avons rassemblé tous les jours de notre période correspondant à un même régime. 
+            Ensuite, nous avons traité chaque régime individuellement en appliquant une moyenne par point.<br>
+            Puis, nous avons calculé la moyenne des anomalies par point afin d'établir l'effet du régime sur le champ considéré sur le domaine (Température à 2m, Précipitations).<br>
+            Enfin, nous avons superposé la Pmer afin de mettre en avant les centres d'action. <br>
+            Nous proposons différents affichages, notamment un affichage au choix entre : 1 régime/4 saisons, 8 régimes/1 saison et 8 régimes/4 saisons (<strong><em>Fig 8</em></strong>).<br> 
+        </p>
+        <figure>
+            <figcaption style="margin-bottom : 1rem;">Figure 8 </figcaption>
+            <img class="image-composite" src="../archives/images_documentation/composite2.png" width="1000px">
+        </figure>
+        <p>
+            <strong>Etape 2 :</strong> Ajout d'un test de significativité.<br>
+            Nous avons appliqué un test de significativité pour les composites 1 régime/4 saisons et 8 régimes/1 saison et non pour le composite 8 régimes/4 saisons du fait de la taille de ses vignettes.<br>
+            Nous proposons ainsi un affichage de la non significativité sur le champ affiché en appliquant un masque sur les valeurs qui se trouvent en dessous du quantile Q2.5 et au-dessus du quantile Q97.5 qui affiche toutes les valeurs non significatives avec des points (<strong><em>Fig 9</em></strong>).
+        </p>
+        <figure>
+            <figcaption style="margin-bottom : 1rem;">Figure 9 </figcaption>
+            <img class="image-composite" src="../archives/images_documentation/composite21.png" width="1000px">
+        </figure>
+        <p>
+            <strong>Etape 3 :</strong> Création des terciles.<br>
+            Nous avons décidé de réaliser des terciles afin d'étudier les comportements extrêmes de chaque régime selon les saisons.
+            Pour cela, nous nous sommes placés sur le domaine France et avons regardé quels étaient les jours correspondants aux terciles inferieur et supérieur pour un champ particulier et pour une saison donnée (Température à 2m ou Précipitations).<br>
+            <!--voir avec Ferry et Onaïa si on parle de la moyenne pondérée dans les terciles-->
+            Ce composite comporte trois cartes : au milieu, nous affichons la moyenne pour tous les jours correspondants au régime dans l'ensemble des données. Sur les cotés, les cartes représentent la moyenne des anomalies des jours correspondants aux terciles inférieur et supérieur pour le régime donné pour la saison donnée (<strong><em>Fig 10</em></strong>).<br>
+        </p>
+        <figure>
+            <figcaption style="margin-bottom : 1rem;">Figure 10 </figcaption>
+            <img class="image-composite" src="../archives/images_documentation/composite31.png" width="1000px">
+        </figure>
+        <p>
+            <strong>Etape 4 :</strong> Violin plots.<br>
+            Un autre produit que nous proposons est l'affichage de violins plots. L'objectif a été d'afficher la distribution des anomalies sur la France pour chaque régime pour une saison, et de les comparer entre elles (<strong><em>Fig 11</em></strong>).<br>
+            Les couleurs associées à chaque régime ont été choisies de sorte à ce qu'elles représentent au mieux l'advection d'air chaud sur la France durant chaque régime : en violet le régime advectant le plus d'air chaud et en bleu le régime advectant le moins d'air chaud sur la France A MODIFIER EN FCT DES NOUVELLES COULEURS.
+        </p>
+        <figure>
+            <figcaption style="margin-bottom : 1rem;">Figure 11 </figcaption>
+            <img class="image-composite" src="../archives/images_documentation/composite4.png" width="1000px">
+        </figure>
+    </div>
+    <!-- Fin du Cadre Blanc -->
+</body>
+</html>
+
+
+<!-- <link rel="stylesheet" href="style.css">
+style = "text-indent: -2rem;" 
+
+DOCUMENTATION :
+images pour les clusters (anoms normmalisées)
+mettre du latek ? pour formule de fou de Iwr  FAIT
+image 12 EOF pour etape 4 ?
+une image pour le Wri (etape 5 ou etape 6) ?
+
+A FAIRE :
+- les structures spatiales des 7 régimes en Z500 anom et Z500 anom normalisée
+- ajouter sur cette page la possibilité de télécharger un netcdf avec les paramètres de calcul des anomalies + des étapes de la normalisation + tendance linéaire
+- ajouter la possibilité de telecherger un netcdf des clusters de Z500 normalisé et un csv avec les séries des WRI par régime + la série du WRI persistant dominant (ou no regime si pas de régime persistant)
+- ajouter l'image des clusters
+- faire une rubrique remarques ????
+- change l'image de la page de documentation avec les clusters avec la bonne image (avec bon ordre des regimes)
+- ajouter les images sur page de documentation dans le detail de la methode. FAIT
+ 
+COMPOSITES :
+All_ZO_tas_Gl.png                           1
+All_All_tas_Fr.png  OU DJF_All_pr_Gl.png    2
+JJA_EB_tas_Eu.png   OU JJA_GB_tas_Fr.png    3
+Violin_MAM_All_tas_Fr.png                   4
+
+-->
