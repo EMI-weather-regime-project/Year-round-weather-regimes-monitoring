@@ -6,3 +6,5 @@ data/climatologie
 data/donnees_quotidiennes
 
 scripts/donnees_sauvegardees
+
+.venv
