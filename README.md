@@ -15,8 +15,8 @@ Nous utilisons **python 3.12.3** (utiliser pyenv pour changer de version si beso
 2) Cloner le dépot git :
 
 ```
-git clone https://git.meteo.fr/voisinl/regimes-de-temps-toutes-saisons.git
-cd regimes-de-temps-toutes-saisons
+git clone https://github.com/OscarLorans/Year-round-weather-regimes-monitoring.git
+cd Year-round-weather-regimes-monitoring
 ```
 
 3) Créer un environnement virtuel compatible (dans le dossier : regimes-de-temps-toutes-saisons)
@@ -33,15 +33,18 @@ pip install -r requirements.txt #installer les librairies necessaires
 Après avoir cloné le dépot git, vous devriez avoir cette arborescence là : 
 ```
 
-📁 regimes-de-temps-toutes-saisons/
+📁 Year-round-weather-regimes-monitoring/
 ├── 📄 README.md
 ├── 📄 requirements.txt
 ├── 📄 .gitignore
 ├── 📁 scripts/
 │   ├── 📄 data_maker.py
-│   ├── 📄 plotting_from_data.py
-│   ├── 📄 plotting_composite.py
-│   ├── 📄 suivi_climatique.py
+│   ├── 📄 daily-tasks.py
+│   ├── 📄 plotting_monitoring.py
+│   ├── 📄 plotting_composites.py
+│   ├── 📄 plotting_suivi_climatique.py
+│   ├── 📄 recuperer_donnees_manuellement.py
+│   ├── 📄 recuperer_nouvelles_donnees.py
 │   └── 📁 donnees_sauvegardees/
 ├── 📁 data/
 └── 📁 archives/
