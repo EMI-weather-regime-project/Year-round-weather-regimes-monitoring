@@ -47,8 +47,19 @@ Après avoir cloné le dépot git, vous devriez avoir cette arborescence là :
 │   ├── 📄 recuperer_nouvelles_donnees.py
 │   └── 📁 donnees_sauvegardees/
 ├── 📁 data/
+│   ├── 📁 climatologie/
+│   └── 📁 donnees_quotidiennes/
+│   │   ├── 📁 CEP/
+│   │   └── 📁 ERA5/
+├── 📁 html/
+│   ├── 📄 cartes_composites.html
+│   ├── 📄 menu.html
+│   ├── 📄 style.css
+│   ├── 📄 suivi_climatique.html
+│   └── 📄 suivi_quotidien.html
 └── 📁 archives/
-    ├── 📁 composites/
+    ├── 📁 images_composites/
+    ├── 📁 images_documentation/
     ├── 📁 images_suivi_climatique/
     └── 📁 images_suivi_quotidien/
 ```
