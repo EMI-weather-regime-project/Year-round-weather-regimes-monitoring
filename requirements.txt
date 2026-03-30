@@ -1,0 +1,12 @@
+numpy==2.2.6
+xarray==2026.1.0
+pandas==2.2.3
+scipy==1.17.0
+matplotlib==3.10.3
+cartopy==0.24.1
+scikit-learn==1.8.0
+ipykernel==7.2.0
+xskillscore
+seaborn
+regionmask
+netcdf4
