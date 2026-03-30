@@ -10,3 +10,5 @@ xskillscore
 seaborn
 regionmask
 netcdf4
+ecmwf-opendata
+cdsapi
