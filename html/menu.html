@@ -81,8 +81,7 @@
             Les anomalies étant beaucoup plus importantes et possédant une plus grande variabilité en hiver qu'en été, nous normalisons les anomalies de Z500 afin de retirer cette variabilité d'amplitude saisonnière tout en préservant les variations spatiales (<strong><em>Fig 4</em></strong>).<br>
             Cela permet de se focaliser sur la configuration spatiale des flux dans le champ d'anomalies.
             Pour normaliser ces anomalies, nous divisons les anomalies de Z500 par un scalaire calendaire représentant la variabilité climatologique des anomalies de Z500 du jour correspondant (<strong><em>Fig 5</em></strong>).<br>
-            Ce scalaire calendaire, calculé sur le domaine, est defini comme la moyenne spatiale de la déviation standard glissante climatologique sur 30 jours (15 jours avant, 15 jours après).
-            <!--Toutes les anomalies sont ponderées par le cosinus de la latitude afin de prendre en compte le fait qu'à maille égale on ne represente pas la même surface. --> 
+            Ce scalaire calendaire, calculé sur le domaine, est defini comme la moyenne spatiale de la déviation standard glissante climatologique sur 30 jours (15 jours avant, 15 jours après). 
         </p>
         <figure>
             <figcaption style="margin-bottom : 1rem;">Figure 4 et 5</figcaption>
@@ -95,7 +94,7 @@
         </p>
         <figure>
             <figcaption style="margin-bottom : 1rem;">Figure 6</figcaption>
-            <img class="image-composite" src="../archives/images_documentation/figure6.png" width="1000px">
+            <img class="image-composite" src="../archives/images_documentation/figure_anom_normalisees.png" width="1000px">
         </figure>
         <p>
             <strong>Etape 5 :</strong> Calcul du Weather Régime Index (Indice de Régime) Iwr.<br>
@@ -105,18 +104,22 @@
             \[
             I_{wr}(t) = \frac{P_{wr}(t) - \overline{P_{wr}}}{\sqrt{\frac{1}{N} \sum_{i=1}^{N} \left[ P_{wr}(t) - \overline{P_{wr}} \right]^2}}
             \]
-            Nous obtenons ainsi un indice pour chaque régime au cours du temps.
-        </p>
-        <p>
-            <strong>Etape 6 :</strong> Classification issue des indices.<br>
-            Nous utilisons les indices pour déterminer le régime dominant pour chaque jour de la période (<strong><em>Fig 7</em></strong>).<br>
-            L'idée est d'abord de déterminer les régimes qui sont actifs. Pour être considéré comme actif, il faut que l'indice correspondant au régime soit superieur à 0.9 pendant minimum 5 jours. On autorise cependant l'indice à descendre ponctuellemnt sous le seuil de 0.9 durant ces 5 jours.<br>
-            Parmis les régimes actifs (il peut y en avoir plusieurs en même temps), le régime dominant est celui dont l'indice est le plus fort. Cependant, si l'indice du régime n'est pas le plus fort pendant au minimum 3 jours, alors le régime n'est pas considéré comme dominant.<br>
-            Cela nous donne la classification par indice de régime qui sera ensuite utilisée pour les composites.
+            Nous obtenons ainsi un indice pour chaque régime au cours du temps (<strong><em>Fig 7</em></strong>).
         </p>
         <figure>
             <figcaption style="margin-bottom : 1rem;">Figure 7</figcaption>
-            <img class="image-composite" src="../archives/images_documentation/figure_WRI.png" width="1100px">
+            <img class="image-composite" src="../archives/images_documentation/figure_WRI_nouv.png" width="1100px">
+        </figure>
+        <p>
+            <strong>Etape 6 :</strong> Classification issue des indices.<br>
+            Nous utilisons les indices pour déterminer le régime dominant pour chaque jour de la période.<br>
+            L'idée est d'abord de déterminer les régimes qui sont actifs. Pour être considéré comme actif, il faut que l'indice correspondant au régime soit superieur à 0.9 pendant minimum 5 jours. On autorise cependant l'indice à descendre ponctuellemnt sous le seuil de 0.9 durant ces 5 jours.<br>
+            Parmis les régimes actifs (il peut y en avoir plusieurs en même temps), le régime dominant est celui dont l'indice est le plus fort. Cependant, si l'indice du régime n'est pas le plus fort pendant au minimum 3 jours, alors le régime n'est pas considéré comme dominant (<strong><em>Fig 8</em></strong>).<br>
+            Cela nous donne la classification par indice de régime qui sera ensuite utilisée pour les composites.
+        </p>
+        <figure>
+            <figcaption style="margin-bottom : 1rem;">Figure 8</figcaption>
+            <img class="image-composite" src="../archives/images_documentation/figure_courbesWRI.png" width="1100px">
         </figure>
 
         <h3>Méthode d'obtention des composites :</h3>
@@ -127,69 +130,42 @@
             Ensuite, nous avons traité chaque régime individuellement en appliquant une moyenne par point.<br>
             Puis, nous avons calculé la moyenne des anomalies par point afin d'établir l'effet du régime sur le champ considéré sur le domaine (Température à 2m, Précipitations).<br>
             Enfin, nous avons superposé la Pmer afin de mettre en avant les centres d'action. <br>
-            Nous proposons différents affichages, notamment un affichage au choix entre : 1 régime/4 saisons, 8 régimes/1 saison et 8 régimes/4 saisons (<strong><em>Fig 8</em></strong>).<br> 
+            Nous proposons différents affichages, notamment un affichage au choix entre : 1 régime/4 saisons, 8 régimes/1 saison et 8 régimes/4 saisons (<strong><em>Fig 9</em></strong>).<br> 
         </p>
         <figure>
-            <figcaption style="margin-bottom : 1rem;">Figure 8 </figcaption>
-            <img class="image-composite" src="../archives/images_documentation/composite2.png" width="1000px">
+            <figcaption style="margin-bottom : 1rem;">Figure 9 </figcaption>
+            <img class="image-composite" src="../archives/images_documentation/composite1.png" width="1000px">
         </figure>
         <p>
             <strong>Etape 2 :</strong> Ajout d'un test de significativité.<br>
             Nous avons appliqué un test de significativité pour les composites 1 régime/4 saisons et 8 régimes/1 saison et non pour le composite 8 régimes/4 saisons du fait de la taille de ses vignettes.<br>
-            Nous proposons ainsi un affichage de la non significativité sur le champ affiché en appliquant un masque sur les valeurs qui se trouvent en dessous du quantile Q2.5 et au-dessus du quantile Q97.5 qui affiche toutes les valeurs non significatives avec des points (<strong><em>Fig 9</em></strong>).
+            Nous proposons ainsi un affichage de la non significativité sur le champ affiché en appliquant un masque sur les valeurs qui se trouvent en dessous du quantile Q2.5 et au-dessus du quantile Q97.5 qui affiche toutes les valeurs non significatives avec des points (<strong><em>Fig 10</em></strong>).
         </p>
         <figure>
-            <figcaption style="margin-bottom : 1rem;">Figure 9 </figcaption>
+            <figcaption style="margin-bottom : 1rem;">Figure 10</figcaption>
             <img class="image-composite" src="../archives/images_documentation/composite21.png" width="1000px">
         </figure>
         <p>
             <strong>Etape 3 :</strong> Création des terciles.<br>
             Nous avons décidé de réaliser des terciles afin d'étudier les comportements extrêmes de chaque régime selon les saisons.
             Pour cela, nous nous sommes placés sur le domaine France et avons regardé quels étaient les jours correspondants aux terciles inferieur et supérieur pour un champ particulier et pour une saison donnée (Température à 2m ou Précipitations).<br>
-            <!--voir avec Ferry et Onaïa si on parle de la moyenne pondérée dans les terciles-->
-            Ce composite comporte trois cartes : au milieu, nous affichons la moyenne pour tous les jours correspondants au régime dans l'ensemble des données. Sur les cotés, les cartes représentent la moyenne des anomalies des jours correspondants aux terciles inférieur et supérieur pour le régime donné pour la saison donnée (<strong><em>Fig 10</em></strong>).<br>
-        </p>
-        <figure>
-            <figcaption style="margin-bottom : 1rem;">Figure 10 </figcaption>
-            <img class="image-composite" src="../archives/images_documentation/composite31.png" width="1000px">
-        </figure>
-        <p>
-            <strong>Etape 4 :</strong> Violin plots.<br>
-            Un autre produit que nous proposons est l'affichage de violins plots. L'objectif a été d'afficher la distribution des anomalies sur la France pour chaque régime pour une saison, et de les comparer entre elles (<strong><em>Fig 11</em></strong>).<br>
-            Les couleurs associées à chaque régime ont été choisies de sorte à ce qu'elles représentent au mieux l'advection d'air chaud sur la France durant chaque régime : en violet le régime advectant le plus d'air chaud et en bleu le régime advectant le moins d'air chaud sur la France A MODIFIER EN FCT DES NOUVELLES COULEURS.
+            Nous déterminons un indicateur national quotidien du paramètre considéré. Puis pour les terciles inférieurs (resp. supérieurs) de chaque régime, nous moyennons les 33% des indicateurs nationaux les plus bas (resp. les plus hauts) des jours associés au régime considéré.
+            Ce composite comporte trois cartes : au milieu, nous affichons la moyenne pour tous les jours correspondants au régime dans l'ensemble des données. Sur les cotés, les cartes représentent la moyenne des anomalies des jours correspondants aux terciles inférieur et supérieur pour le régime donné pour la saison donnée (<strong><em>Fig 11</em></strong>).<br>
         </p>
         <figure>
             <figcaption style="margin-bottom : 1rem;">Figure 11 </figcaption>
+            <img class="image-composite" src="../archives/images_documentation/composite3.png" width="1000px">
+        </figure>
+        <p>
+            <strong>Etape 4 :</strong> Violin plots.<br>
+            Un autre produit que nous proposons est l'affichage de violins plots. L'objectif a été d'afficher la distribution des anomalies sur la France pour chaque régime pour une saison, et de les comparer entre elles (<strong><em>Fig 12</em></strong>).<br>
+            Les couleurs associées à chaque régime ont été choisies de sorte à ce qu'elles représentent au mieux l'advection d'air froid ou chaud sur la France durant chaque régime ainsi que l'humidité apportée.
+        </p>
+        <figure>
+            <figcaption style="margin-bottom : 1rem;">Figure 12 </figcaption>
             <img class="image-composite" src="../archives/images_documentation/composite4.png" width="1000px">
         </figure>
     </div>
     <!-- Fin du Cadre Blanc -->
 </body>
 </html>
-
-
-<!-- <link rel="stylesheet" href="style.css">
-style = "text-indent: -2rem;" 
-
-DOCUMENTATION :
-images pour les clusters (anoms normmalisées)
-mettre du latek ? pour formule de fou de Iwr  FAIT
-image 12 EOF pour etape 4 ?
-une image pour le Wri (etape 5 ou etape 6) ?
-
-A FAIRE :
-- les structures spatiales des 7 régimes en Z500 anom et Z500 anom normalisée
-- ajouter sur cette page la possibilité de télécharger un netcdf avec les paramètres de calcul des anomalies + des étapes de la normalisation + tendance linéaire
-- ajouter la possibilité de telecherger un netcdf des clusters de Z500 normalisé et un csv avec les séries des WRI par régime + la série du WRI persistant dominant (ou no regime si pas de régime persistant)
-- ajouter l'image des clusters
-- faire une rubrique remarques ????
-- change l'image de la page de documentation avec les clusters avec la bonne image (avec bon ordre des regimes)
-- ajouter les images sur page de documentation dans le detail de la methode. FAIT
- 
-COMPOSITES :
-All_ZO_tas_Gl.png                           1
-All_All_tas_Fr.png  OU DJF_All_pr_Gl.png    2
-JJA_EB_tas_Eu.png   OU JJA_GB_tas_Fr.png    3
-Violin_MAM_All_tas_Fr.png                   4
-
--->
