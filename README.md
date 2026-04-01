@@ -49,7 +49,7 @@ Après avoir cloné le dépot git, vous devriez avoir cette arborescence là :
 ├── 📁 data/
 │   ├── 📁 climatologie/
 │   └── 📁 donnees_quotidiennes/
-│   │   ├── 📁 CEP/
+│   │   ├── 📁 AnaCEP/
 │   │   └── 📁 ERA5/
 ├── 📁 html/
 │   ├── 📄 cartes_composites.html
@@ -62,6 +62,8 @@ Après avoir cloné le dépot git, vous devriez avoir cette arborescence là :
     ├── 📁 images_documentation/
     ├── 📁 images_suivi_climatique/
     └── 📁 images_monitoring/
+        ├── 📁 AnaCEP/
+        └── 📁 ERA5/
 ```
 
 Pour récupérer les data qui doivent être placées dans le dossier data, il faut aller sur le Climate Data Store et prendre les fichiers suivants.
