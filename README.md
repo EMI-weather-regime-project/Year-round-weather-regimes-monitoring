@@ -72,9 +72,22 @@ Pour récupérer les data qui doivent être placées dans le dossier data, il fa
 Pour obtenir les images, voici les étapes à suivre : 
 - récupérer les données et les mettre dans le dossier data
 - lancer le fichier data_maker.py -> stock toutes les données utiles aux plots pour la suite dans le dossier donnees_sauvegardees
-- lancer le fichier plotting_from_data.py (long) -> permet de sauvegarder les graphiques mensuels et annuels des indices de régimes dans le dossier images_suivi_quotidien
-- lancer le fichier plotting_composite.py (long) -> permet de sauvegarder l'ensemble des composites dans le dossier composites
-- lancer le fichier suivi_climatique.py -> permet de sauvegarder les graphiques de suivi dans le dossier images_suivi_climatique
+```
+cd scripts
+python3 data_maker.py
+```
+- lancer le fichier plotting_monitoring.py (long) -> permet de sauvegarder les graphiques mensuels et annuels des indices de régimes dans le dossier images_monitoring
+```
+python3 plotting_monitoring.py
+```
+- lancer le fichier plotting_composites.py (long) -> permet de sauvegarder l'ensemble des composites dans le dossier images_composites
+```
+python3 plotting_composites.py
+```
+- lancer le fichier plotting_suivi_climatique.py -> permet de sauvegarder les graphiques de suivi dans le dossier images_suivi_climatique
+```
+python3 plotting_suivi_climatique.py
+```
 
 Si seulement la détermination des clusters et des indices vous interesse, le script qui vous est utile est data_maker.py
 
