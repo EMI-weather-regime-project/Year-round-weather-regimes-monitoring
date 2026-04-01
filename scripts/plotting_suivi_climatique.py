@@ -7,6 +7,7 @@ from tqdm import tqdm
 import warnings
 from pathlib import Path
 warnings.filterwarnings("ignore")
+
 ###########################################################
 # ---------- Récupération des données d'intérêt ----------
 ###########################################################
@@ -51,7 +52,8 @@ couleurs = ["#8B4513","#6a0dad","#0000ff","#F4A460","#ff0000","#43CEF8","#228B22
 
 mois_noms = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
 mois = ['01','02','03','04','05','06','07','08','09','10','11','12']
-annee_actuelle = [1991+i for i in range(35)] # Pour la sauvegarde des histogrammes allant de 1991 à 2025
+annee_actuelle = [1961+i for i in range(30)] # 30 pour la sauvegarde des histogrammes allant de 1961 à 1990
+annee_actuelle2 = [1991+i for i in range(35)] # 35 pour la sauvegarde des histogrammes allant de 19ç1 à 2025
 
 
 ###########################################################
@@ -345,31 +347,133 @@ def affichage_histogrammes(mois_actuel,annee_fin):
     plt.tight_layout()
     plt.savefig(save_figure_path/f"{annee_fin}_{mois_actuel}_histogrammes_suivi_climatique.png",bbox_inches="tight", pad_inches = 0.3)
 
+def tracer_barres_sans_climatologie(ax, repartition, titres, is_cumul=False):
+    """
+    Trace les barres des histogrammes sans la climatologie
+    """
+
+    x_pos = 0
+    xticks_pos = []
+    xticks_labels = []
+    
+    for i in range(len(repartition)):
+        # Affichage du titre du mois en haut
+        centre_mois = x_pos + 3.5
+        ax.text(centre_mois, ax.get_ylim()[1] if is_cumul else 30, titres[i], 
+                ha='center', va='bottom', fontsize=14, fontweight='bold', color='#A020F0') # Violet
+        
+        for j in range(8): # 8 régimes
+            val_reelle = repartition[i][j]
+
+            # Barre des données réelles (Pleine, plus fine, centrée par-dessus)
+            ax.bar(x_pos, val_reelle, width=0.65, color=couleurs[j], edgecolor='black')
+            
+            # Texte dans la barre pleine (Nombre de jours)
+            if val_reelle > 0:
+                ax.text(x_pos +0.07, val_reelle - 0.2, str(int(val_reelle)), 
+                        ha='center', va='top', fontweight='bold', rotation=90,
+                        color='black' if couleurs[j] in ['#00FF00', '#FFA500'] else 'white')
+
+            x_pos += 1 # Espacement entre les régimes d'un même mois
+        x_pos += 1 # Espacement entre les mois
+
+    # Formatage de l'axe X
+    ax.set_xticks(xticks_pos)
+    ax.set_xticklabels(xticks_labels, rotation=0, fontsize = 7, fontweight='bold')
+    ax.tick_params(axis='x', length=0) # Cache les petits traits de l'axe X
+    
+    # Grille horizontale
+    ax.grid(axis='y', linestyle='--', alpha=0.7)
+    
+    # Esthétique des bordures
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+
+def affichage_histogrammes_sans_climatologie(mois_actuel,annee_fin):
+    """
+    Trace les histogrammes sans la climatologie
+    Nécessite d'entrer les derniers mois et l'année des trois mois glissants que l'on souhaite renvoyer : 
+    - Entrez le mois_actuel sous la forme str : mois_actuel = "01" pour janvier par exemple, ou mois_actuel = "12" pour décembre 
+    - Entrez l'année de fin sous la forme d'un entier : annee_fin = 2026 pour 2026
+    """
+
+    # ---------- Traitement des données ----------
+    repartition, repartition_trimestrielle = nombre_jours_par_regime(mois_actuel,annee_fin) # Récupération des nombres d'occurrences des régimes
+    liste = mois_selectionne(mois_actuel,annee_fin)[1] # Détermination des mois d'intérêt
+
+    # ---------- Paramètre pour la présentation des histogrammes ----------
+    # Extraction des noms des mois d'intérêt
+    titres_mois = [mois_noms[liste[0]],mois_noms[liste[1]],mois_noms[liste[2]] ]
+
+    # ---------- Configuration de la figure ----------
+    fig = plt.figure(figsize=(14, 8)) # Taille de la figure
+    # Nom de la figure
+    fig.suptitle(f"ERA5 : Regimes de temps de {titres_mois[0]} à {titres_mois[2]} {annee_fin}", fontsize=14, fontweight='bold')
+
+    gs = fig.add_gridspec(1, 2, width_ratios=[4, 1.6], wspace=0.3) # On utilise GridSpec pour séparer les 3 mois du cumul (car les échelles Y sont différentes)
+    ax1 = fig.add_subplot(gs[0]) # Pour les trois mois d'intérêt
+    ax2 = fig.add_subplot(gs[1]) # Pour le Cumul
+
+    # ---------- Tracé des mois individuels (graphique de gauche) ----------
+    # Formatage des axes
+    ax1.set_ylim(0, 31)
+    ax1.set_ylabel("Nombre de jours")
+    tracer_barres_sans_climatologie(ax1, repartition, titres_mois)
+
+    # ---------- Tracé des trois mois glissants (graphique de droite) ----------
+    cumul_trimestriel_graphique = repartition_trimestrielle
+    # Formatage des axes
+    ax2.yaxis.tick_right() # On déplace l'axe Y à droite pour le cumul
+    ax2.set_ylim(0, 66)
+    tracer_barres_sans_climatologie(ax2, [cumul_trimestriel_graphique], [f"De {titres_mois[0]} à {titres_mois[2]}"], is_cumul=True)
+
+    # ---------- Ajout de la légende ----------
+    legend_elements = [Patch(facecolor=couleurs[i], edgecolor='none', label=labels_regimes[i]) for i in range(8)]
+    ax1.legend(handles=legend_elements, loc='lower left', bbox_to_anchor=(0.0, -0.15), 
+            framealpha=1, edgecolor='black', ncol=4)
+
+    # ---------- Sauvegarde ----------
+    plt.tight_layout()
+    plt.savefig(save_figure_path/f"{annee_fin}_{mois_actuel}_histogrammes_suivi_climatique.png",bbox_inches="tight", pad_inches = 0.3)
+
 
 ###########################################################
 # ---------------- Fonction de sauvegarde ----------------
 ###########################################################
 
-def sauvegarde_tous_histogrammes(mois,annee_actuelle):
+def sauvegarde_tous_histogrammes(mois,annee_actuelle, ok_1960 = False):
     """
-    Sauvegarde tous les composites de l'année 1991 à 2025
+    Sauvegarde tous les composites de l'année 1960 à 2025
     """
+
+    if ok_1960 :
+        mois_1960 = ['03','04','05','06','07','08','09','10','11','12'] # On n'a pas les données de 1959
+        for i in range(len(mois_1960)):
+            affichage_histogrammes_sans_climatologie(mois_1960[i],1960)
 
     # Traitement des données années par années
     for annee in tqdm(annee_actuelle) :
-        # Traitement des données mois par mois
-        for mois_actuel in mois : 
-            affichage_histogrammes(mois_actuel,annee) # Génération des histogrammes (et sauvegarde comprise dans affichage_histogrammes)
+        if 1960 < annee < 1991 : 
+            # Traitement des données mois par mois
+            for mois_actuel in mois : 
+                affichage_histogrammes_sans_climatologie(mois_actuel,annee) # Génération des histogrammes (et sauvegarde comprise dans affichage_histogrammes)
+        else : 
+            for mois_actuel in mois : 
+                affichage_histogrammes(mois_actuel,annee) # Génération des histogrammes (et sauvegarde comprise dans affichage_histogrammes)
 
 
 ###########################################################
 # -------------- Génération des histogrammes --------------
 ###########################################################
 
-sauvegarde_tous_histogrammes(mois,annee_actuelle)
+# On sépare les deux périodes pour que ce soit plus facile pour l'ordinateur
+#sauvegarde_tous_histogrammes(mois,annee_actuelle,ok_1960 = True) # pour 1960 à 1990
+sauvegarde_tous_histogrammes(mois,annee_actuelle2,ok_1960 = False) # pour 1991 à 2025
+
 
 ###########################################################
 # ------------- Génération de la climatologie -------------
 ###########################################################
 
-np.save(data_needed_save_path/'climatologie.npy', climatologie(2025)[:2])
+np.save('donnees_sauvegardees/climatologie.npy', climatologie(2025)[:2])
