@@ -7,14 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- A FAIRE -->
-    <!-- METTRE LE BOOTSTRAP EN OPTION DANS LE SELECTEUR
-     TERTILES A PRINT QUAND UNE SAISON ET UN REGIME -->
-    <!-- Ajouter les composites synthetiques multi-saisons-->
-    <!-- Ajouter une option pour visualiser les violins plots "moyenne France" !
-        violins plots : possiblent pour une saisons et all regimes uniquement(pour tas ou pr et independamment du domaine (uniquement pour la France
-        mais on peut print pour tous les odmaines car précisé dans le titre que c'est pour la France))-->
-
     <!-- Début du Cadre Blanc -->
     <div class="main-container">
         <!-- Menu de navigation -->
@@ -62,7 +54,7 @@
                         <option value="All">Multi-saisons</option>
                     </select>
                 </div>
-                <!--toujours superposer la pmer et mettre une option pour le bootstrap)-->
+                
                 <div class="form-group">
                     <label for="parametre">Paramètre</label>
                     <select id="parametre" name="parametre">
@@ -88,7 +80,6 @@
             <p id="error-msg" class="error-msg">Désolé, cette image n'existe pas encore.</p>
             <!-- Image de résultat (cachée par défaut) -->
             <img id="image-composite" src="" alt="Composite Regimes de temps">
-            <!-- NOUVELLE IMAGE : Climatology (Cachée par défaut) -->
             <img id="image-violin" src="" alt="">
 
         </div>
@@ -96,7 +87,7 @@
     <!-- La Modale (Zoom) - À placer avant le script -->
     <div id="imageModal" class="image-modal">
         <span class="close-btn">&times;</span>
-        <img class="modal-content" id="imgZoomed" alt="Vue agrandie"> <!--alt="Vue agrandie" est-ce vraiment utile ?-->
+        <img class="modal-content" id="imgZoomed" alt="Vue agrandie">
     </div>
     <!-- en javascript, recuperer dans des variables la saison, le regime, le param et le domaine puis rediriger vers la bonne image lorsqu'on appuie sur valider-->
     <script>
@@ -104,7 +95,7 @@
             // --- 1. Sélection des éléments ---
             const btnValider = document.getElementById('btnValider');
             const imgElement = document.getElementById('image-composite');
-            const imgViolin = document.getElementById('image-violin'); // Nouvelle image (violins plots) CSS A MODIFIER
+            const imgViolin = document.getElementById('image-violin');
             const errorElement = document.getElementById('error-msg');
             
             // Éléments de la modale (Zoom)
@@ -226,5 +217,3 @@
     </script>
 </body>
 </html>
-
-<!--<link rel="stylesheet" href="style.css">-->
