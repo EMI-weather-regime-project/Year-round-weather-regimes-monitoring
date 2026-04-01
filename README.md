@@ -15,7 +15,7 @@ Nous utilisons **python 3.12.3** (utiliser pyenv pour changer de version si beso
 2) Cloner le dépot git :
 
 ```
-git clone https://github.com/OscarLorans/Year-round-weather-regimes-monitoring.git
+git clone https://github.com/EMI-weather-regime-project/Year-round-weather-regimes-monitoring.git
 cd Year-round-weather-regimes-monitoring
 ```
 
