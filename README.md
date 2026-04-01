@@ -1,7 +1,6 @@
 # Régimes de temps toute saison
 
 ## Description
-Le but du projet est de faire un site web de suivi quotidien des régimes de temps toutes saison. Le code est à disposition sur le git et voici le [lien du site](http://sotrtm38-sidev/~voisinl/menu.html) (disponible uniquement en interne pour l'instant).
 L’objectif du projet est d’implémenter la méthode de calcul des régimes de temps « toutes saisons » sur l’Atlantique nord puis de faire un site web en temps réel de produits de suivi climatique et quotidien des régimes de temps toutes saisons. Le code est à disposition sur le git et voici le [lien du site](http://sotrtm38-sidev/~voisinl/menu.html) (disponible uniquement en interne pour l'instant).
 
 ## Visuals
