@@ -89,10 +89,10 @@ python3 plotting_composites.py
 python3 plotting_suivi_climatique.py
 ```
 
-Si seulement la détermination des clusters et des indices vous interesse, le script qui vous est utile est data_maker.py
+Si vous êtes uniquement intéressé par la détermination des clusters et des indices de régime, le script qui vous est utile est data_maker.py
 
 ## Support
-Si vous avez des questions, voici les personnes à contacter
+Si vous avez des questions, voici les personnes à contacter :
 - oscar.lorans@meteo.fr
 - killian.mounier@meteo.fr
 - louis.voisin@meteo.fr
@@ -105,7 +105,7 @@ On a également intégré un suivi quotitien des régimes toutes saisons interne
 Pour le moment le projet est fini et nous n'allons pas explorer plus loin.
 
 ## Authors and acknowledgment
-Nos encadrants qui nous ont bien aidé sur le projet :
+Nos encadrants qui nous ont apporté une grande aide sur le projet :
 - Frédéric Ferry
 - Onaïa Savary
 - Frédéric Gayrard
