@@ -8,3 +8,4 @@ data/donnees_quotidiennes
 scripts/donnees_sauvegardees
 
 .venv
+.cdsapirc

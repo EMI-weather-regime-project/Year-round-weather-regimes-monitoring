@@ -1,6 +1,5 @@
 import cdsapi
 from datetime import datetime, timedelta
-import os
 from ecmwf.opendata import Client
 from pathlib import Path
 
@@ -26,8 +25,8 @@ mois_moins_5_jours = date_moins_5_jours.strftime("%m")
 jour_moins_5_jours = date_moins_5_jours.strftime("%d")
 
 ######## Définition des chemins et fichiers de sortie ########
-dossier_de_sortie_ERA5 = Path('../../../../../utemp/mcbd/voisinl/data_daily/ERA5')
-dossier_de_sortie_CEP = Path('../../../../../utemp/mcbd/voisinl/data_daily/AnaCEP')
+dossier_de_sortie_ERA5 = Path('../data/donnees_quotidiennes/ERA5')
+dossier_de_sortie_CEP = Path('../data/donnees_quotidiennes/AnaCEP')
 
 
 fichier_de_sortie_ERA5_z500 = dossier_de_sortie_ERA5 / f"Z500_ERA500_{annee_moins_5_jours}{mois_moins_5_jours}{jour_moins_5_jours}.grib"

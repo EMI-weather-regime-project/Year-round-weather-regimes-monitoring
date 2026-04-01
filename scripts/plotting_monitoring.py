@@ -3,12 +3,10 @@ import numpy as np
 import json
 from pathlib import Path
 import matplotlib.pyplot as plt
-from matplotlib.patches import Patch
-from matplotlib.colors import ListedColormap
 import pandas as pd
 import matplotlib.dates as mdates
-import os
 import calendar
+from tqdm import tqdm
 
 save_path = Path("donnees_sauvegardees")
 
@@ -67,7 +65,6 @@ def plot_ultimate_regimes_masked_save(indices, active_regimes, max_regime, start
         mask_max = sub_max.sel(regime=regime_name)
         
         color = color_mapping.get(str(regime_name), 'black') 
-        
         # A. Ligne de fond (>0 mais fine)
         ax1.plot(data.time, data.values, label=regime_name, color=color, linewidth=1, alpha=0.3)
         
@@ -85,6 +82,8 @@ def plot_ultimate_regimes_masked_save(indices, active_regimes, max_regime, start
     ax1.grid(True, linestyle='--', alpha=0.6)
     ax1.set_title(f"Dynamique complète des Régimes de Temps ({start_date} au {end_date})", fontsize=16, pad=15)
     ax1.set_ylabel("Indice Standardisé ($I_{wr}$)")
+    couleur_no_regime = color_mapping.get('No regime', 'gray')
+    ax1.plot([], [], label='No regime (pas de courbe)', color=couleur_no_regime, linewidth=4.0)
     legende = ax1.legend(bbox_to_anchor=(0.5, 0), loc='lower center', ncol=4)
     for ligne in legende.get_lines():
         ligne.set_linewidth(4.0)
@@ -202,7 +201,7 @@ def plot_ultimate_regimes_masked2_save(indices, active_regimes, max_regime, star
     end_dt = pd.to_datetime(end_date)
     
     color_mapping = {info['nom']: info['couleur'] for info in dictionnaire_regimes.values()}
-    regimes_valides = [info['nom'] for info in dictionnaire_regimes.values() if info['nom'] != 'No Regime']
+
     
     # Découpage temporel
     sub_idx = indices.sel(time=slice(start_dt, end_dt))
@@ -218,10 +217,10 @@ def plot_ultimate_regimes_masked2_save(indices, active_regimes, max_regime, star
     for regime_name in sub_idx.regime.values:
         data = sub_idx.sel(regime=regime_name)
         mask_act = sub_act.sel(regime=regime_name)
-        mask_max = sub_max.sel(regime=regime_name)
         
         color = color_mapping.get(str(regime_name), 'black') 
-        
+
+
         # A. Ligne de fond (>0 mais fine)
         ax1.plot(data.time, data.values, label=regime_name, color=color, linewidth=1, alpha=0.3)
         
@@ -236,6 +235,8 @@ def plot_ultimate_regimes_masked2_save(indices, active_regimes, max_regime, star
     ax1.set_ylim(bottom=-2)
     ax1.set_title(f"Dynamique complète des Régimes de Temps ({start_date} au {end_date})", fontsize=16, pad=15)
     ax1.set_ylabel("Indice Standardisé ($I_{wr}$)")
+    couleur_no_regime = color_mapping.get('No regime', 'gray')
+    ax1.plot([], [], label='No regime (pas de courbe)', color=couleur_no_regime, linewidth=4.0)
     legende = ax1.legend(bbox_to_anchor=(0.5, 0), loc='lower center', ncol=4)
     for ligne in legende.get_lines():
         ligne.set_linewidth(4.0)
@@ -284,7 +285,7 @@ start_year = 1960
 print(f"Début de la génération des images (de {start_year} à {max_year})...")
 
 # 3. La boucle par année
-for year in range(start_year, max_year + 1):
+for year in tqdm(range(start_year, max_year + 1)):
     
     # On fixe les dates du début à la fin de l'année
     start_date = f"{year}-01-01"
@@ -304,7 +305,6 @@ for year in range(start_year, max_year + 1):
         save_path=filename
     )
     
-    print(f"✅ Enregistré : {filename}")
 
 print("Génération terminée ! Toutes les images sont dans le dossier 'images_monitoring_annuel'.")
 
@@ -324,7 +324,7 @@ start_year = 1960
 print(f"Début de la génération des images (de {start_year} à {max_year})...")
 
 # 3. La boucle
-for year in range(start_year, max_year + 1):
+for year in tqdm(range(start_year, max_year + 1)):
     for month in range(1, 13):
         
         # On s'arrête si on dépasse le dernier mois disponible dans les données
@@ -353,7 +353,6 @@ for year in range(start_year, max_year + 1):
             save_path=filename
         )
         
-        print(f"Enregistré : {filename}")
 
 print("✅ Génération terminée ! Toutes les images sont dans le dossier 'images_monitoring'.")
 

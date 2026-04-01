@@ -10,11 +10,9 @@ import matplotlib.dates as mdates
 
 from matplotlib.patches import Patch
 from dateutil.relativedelta import relativedelta
-from datetime import date, datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
-import os
-import calendar
 import warnings
 import glob
 import argparse
@@ -35,17 +33,17 @@ Où sont stockées ces images ?
 
 ####### Définition de variables utiles #######
 
-save_path = Path('donnes_sauvegardees')
+save_path = Path('donnees_sauvegardees')
 DATA_TYPE = args.datatype # soit 'AnaCEP ou ERA5
 DATA_EXT = '.grib'
-new_data_folder_path = Path(f"../../../../../utemp/mcbd/voisinl/data_daily/{DATA_TYPE}")
+new_data_folder_path = Path(f"../data/donnees_quotidiennes/{DATA_TYPE}")
 
 if DATA_TYPE != 'AnaCEP' and DATA_TYPE != 'ERA5':
     raise ValueError("Erreur dans le nom des données que vous avez mises (bien verifier ERA5 ou AnaCEP)")
 
 
 if DATA_TYPE == 'ERA5':
-    date_actuelle = datetime.now() - relativedelta(days=30)
+    date_actuelle = datetime.now() - relativedelta(days=5)
 else :
     date_actuelle = datetime.now()
 
@@ -555,18 +553,24 @@ def plot_ultimate_regimes_masked_save(indices, active_regimes, max_regime, start
             
             # --- A. Ligne de fond ---
             # On ne trace que si le morceau n'est pas vide pour la période affichée
-            if len(d_start) > 0: ax1.plot(d_start.time, d_start.values, color=color, lw=1.3, alpha=0.3, ls='--')
-            if len(d_mid) > 0:   ax1.plot(d_mid.time, d_mid.values, color=color, lw=1.3, alpha=0.3, ls='-')
-            if len(d_end) > 0:   ax1.plot(d_end.time, d_end.values, color=color, lw=1.3, alpha=0.3, ls='--')
+            if len(d_start) > 0: 
+                ax1.plot(d_start.time, d_start.values, color=color, lw=1.3, alpha=0.3, ls='--')
+            if len(d_mid) > 0:   
+                ax1.plot(d_mid.time, d_mid.values, color=color, lw=1.3, alpha=0.3, ls='-')
+            if len(d_end) > 0:   
+                ax1.plot(d_end.time, d_end.values, color=color, lw=1.3, alpha=0.3, ls='--')
             
             # --- B. Ligne active (épaisse) ---
             act_start = data.where(mask_act).sel(time=slice(None, date_coupure_debut))
             act_mid = data.where(mask_act).sel(time=slice(date_coupure_debut, date_coupure_fin))
             act_end = data.where(mask_act).sel(time=slice(date_coupure_fin, None))
             
-            if len(act_start) > 0: ax1.plot(act_start.time, act_start.values, color=color, lw=1.5, alpha=0.9, ls='--')
-            if len(act_mid) > 0:   ax1.plot(act_mid.time, act_mid.values, color=color, lw=3.5, alpha=0.9, ls='-')
-            if len(act_end) > 0:   ax1.plot(act_end.time, act_end.values, color=color, lw=1.5, alpha=0.9, ls='--')
+            if len(act_start) > 0: 
+                ax1.plot(act_start.time, act_start.values, color=color, lw=1.5, alpha=0.9, ls='--')
+            if len(act_mid) > 0:   
+                ax1.plot(act_mid.time, act_mid.values, color=color, lw=3.5, alpha=0.9, ls='-')
+            if len(act_end) > 0:   
+                ax1.plot(act_end.time, act_end.values, color=color, lw=1.5, alpha=0.9, ls='--')
             
         else:
             # Cas extrême où la base de données entière fait moins de 10 jours
@@ -584,6 +588,8 @@ def plot_ultimate_regimes_masked_save(indices, active_regimes, max_regime, start
     ax1.grid(True, linestyle='--', alpha=0.6)
     ax1.set_title(f"Dynamique complète des Régimes de Temps ({start_date} au {end_date})", fontsize=16, pad=15)
     ax1.set_ylabel("Indice Standardisé ($I_{wr}$)")
+    couleur_no_regime = color_mapping.get('No regime', 'gray')
+    ax1.plot([], [], label='No regime (pas de courbe)', color=couleur_no_regime, linewidth=4.0)
     legende = ax1.legend(bbox_to_anchor=(0.5, 0), loc='lower center', ncol=4)
     for ligne in legende.get_lines():
         ligne.set_linewidth(4.0)
@@ -774,8 +780,7 @@ def plot_ultimate_regimes_masked2_save(indices, active_regimes, max_regime, star
     end_dt = pd.to_datetime(end_date)
     
     color_mapping = {info['nom']: info['couleur'] for info in dictionnaire_regimes.values()}
-    regimes_valides = [info['nom'] for info in dictionnaire_regimes.values() if info['nom'] != 'No Regime']
-    
+
     # Découpage temporel
     sub_idx = indices.sel(time=slice(start_dt, end_dt))
     sub_act = active_regimes.sel(time=slice(start_dt, end_dt))
@@ -790,8 +795,7 @@ def plot_ultimate_regimes_masked2_save(indices, active_regimes, max_regime, star
     for regime_name in sub_idx.regime.values:
         data = sub_idx.sel(regime=regime_name)
         mask_act = sub_act.sel(regime=regime_name)
-        mask_max = sub_max.sel(regime=regime_name)
-        
+
         color = color_mapping.get(str(regime_name), 'black') 
         
         # A. Ligne de fond (>0 mais fine)
@@ -808,6 +812,8 @@ def plot_ultimate_regimes_masked2_save(indices, active_regimes, max_regime, star
     ax1.set_ylim(bottom=-2)
     ax1.set_title(f"Dynamique complète des Régimes de Temps ({start_date} au {end_date})", fontsize=16, pad=15)
     ax1.set_ylabel("Indice Standardisé ($I_{wr}$)")
+    couleur_no_regime = color_mapping.get('No regime', 'gray')
+    ax1.plot([], [], label='No regime (pas de courbe)', color=couleur_no_regime, linewidth=4.0)
     legende = ax1.legend(bbox_to_anchor=(0.5, 0), loc='lower center', ncol=4)
     for ligne in legende.get_lines():
         ligne.set_linewidth(4.0)
@@ -1097,11 +1103,12 @@ def save_histogrammes(mois_actuel,annee_actuelle,climatologie):
             framealpha=1, edgecolor='black', ncol=4)
 
     plt.tight_layout()
-    plt.savefig(f"../archives/images_climatiques/{annee_actuelle}_{mois_actuel}_histogrammes_suivi_climatique.png",bbox_inches="tight", pad_inches = 0.3)
+    plt.savefig(f"../archives/images_suivi_climatique/{annee_actuelle}_{mois_actuel}_histogrammes_suivi_climatique.png",bbox_inches="tight", pad_inches = 0.3)
 
 
 ####### Appel de la fontion pour plot on est sur ERA5 #######
 
 if DATA_TYPE == 'ERA5':
     save_histogrammes(mois_actuel,int(annee_actuelle),climatologie)
+    save_histogrammes(end_mois_prec.strftime('%m'),int(end_mois_prec.strftime('%Y')),climatologie)
     print('Génération des histogrammes réussie')

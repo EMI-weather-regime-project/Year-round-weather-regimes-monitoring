@@ -3,8 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import json
 from matplotlib.patches import Patch
-
-
+from tqdm import tqdm
+import warnings
+from pathlib import Path
+warnings.filterwarnings("ignore")
 ###########################################################
 # ---------- Récupération des données d'intérêt ----------
 ###########################################################
@@ -13,11 +15,13 @@ from matplotlib.patches import Patch
 # On récupère un DataArray contenant pour chaque jour une liste de 7 booléens : 
     # - Si le régime est dominant, il est inscrit True pour le régime correspondant (il n'y a qu'un régime dominant pour chaque jour).
     # - Si il n'y a pas de régime actif, il est inscrit False pour tous les régimes. Le "régime actif" est alors No Regime.
-max_regime = xr.open_dataarray("donnees_sauvegardees/max_regime.nc") 
+data_needed_save_path = Path("donnees_sauvegardees")
+save_figure_path = Path("../archives/images_suivi_climatique")
+max_regime = xr.open_dataarray(data_needed_save_path/"max_regime.nc") 
 
 # ---------- Récupération de l'ordre des régime obtenu par kmeans ----------
 # On récupère la liste des régimes de temps, dans l'ordre obtenu par les kmeans
-with open("donnees_sauvegardees/cluster_regime_names.json", "r", encoding="utf-8") as f:
+with open(data_needed_save_path/"cluster_regime_names.json", "r", encoding="utf-8") as f:
     cluster_regime_names = json.load(f)
 cluster_regime_names=list(cluster_regime_names.values())
 
@@ -339,7 +343,7 @@ def affichage_histogrammes(mois_actuel,annee_fin):
 
     # ---------- Sauvegarde ----------
     plt.tight_layout()
-    plt.savefig(f"../archives/images_suivi_climatique/{annee_fin}_{mois_actuel}_histogrammes_suivi_climatique.png",bbox_inches="tight", pad_inches = 0.3)
+    plt.savefig(save_figure_path/f"{annee_fin}_{mois_actuel}_histogrammes_suivi_climatique.png",bbox_inches="tight", pad_inches = 0.3)
 
 
 ###########################################################
@@ -352,7 +356,7 @@ def sauvegarde_tous_histogrammes(mois,annee_actuelle):
     """
 
     # Traitement des données années par années
-    for annee in annee_actuelle :
+    for annee in tqdm(annee_actuelle) :
         # Traitement des données mois par mois
         for mois_actuel in mois : 
             affichage_histogrammes(mois_actuel,annee) # Génération des histogrammes (et sauvegarde comprise dans affichage_histogrammes)
@@ -368,4 +372,4 @@ sauvegarde_tous_histogrammes(mois,annee_actuelle)
 # ------------- Génération de la climatologie -------------
 ###########################################################
 
-np.save('donnees_sauvegardees/climatologie.npy', climatologie(2025)[:2])
+np.save(data_needed_save_path/'climatologie.npy', climatologie(2025)[:2])

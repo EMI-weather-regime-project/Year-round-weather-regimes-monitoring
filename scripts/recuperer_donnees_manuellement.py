@@ -1,6 +1,4 @@
 import cdsapi
-from datetime import datetime
-from ecmwf.opendata import Client
 from pathlib import Path
 import pandas as pd
 
@@ -23,7 +21,7 @@ print(f"la date de début est : {date_debut_tirets}")
 print(f"la date de fin est : {date_fin_tirets}")
 
 ######## Définition des chemins de sauvegarde ########
-dossier_de_sortie_ERA5 = Path('../../../../../utemp/mcbd/voisinl/data_daily/ERA5')
+dossier_de_sortie_ERA5 = Path('../data/donnees_quotidiennes/ERA5')
 
 
 fichier_de_sortie_ERA5_z500 = dossier_de_sortie_ERA5 / f"Z500_ERA500_{date_debut}.grib"

@@ -12,7 +12,8 @@ import regionmask
 import json
 import seaborn as sns
 import warnings
-
+from tqdm import tqdm
+from pathlib import Path
 # À modifier : traitement des concat dans la fonction composite pour les terciles -> notre version initiale ne marche plus (fonction composite terciles)
 # Essayer de voir si mettre drop_feb29 à True permet de renvoyer des choses ou pas -> devrait être bon, fonctionne pour les terciles 
 
@@ -27,6 +28,9 @@ warnings.filterwarnings('ignore')
 tstart = "1960-01-01"    
 tend   = "2025-12-31"       
 
+path_climatologies = Path('../data/climatologie')
+data_needed_save_path = Path("donnees_sauvegardees")
+save_figure_path = Path("../archives/images_composites")
 # Traitement du 29 février
 drop_feb29 = True # True: retire 29/02 pour avoir DOY strict 1..365 (sinon on garde 29/02)
 
@@ -36,14 +40,14 @@ drop_feb29 = True # True: retire 29/02 pour avoir DOY strict 1..365 (sinon on ga
 ###########################################################
 
 # On récupère l'ordre des régimes obtenus à partir des kmeans (produit par data_maker.py)
-with open("donnees_sauvegardees/cluster_regime_names.json", "r", encoding="utf-8") as f:
+with open(data_needed_save_path/"cluster_regime_names.json", "r", encoding="utf-8") as f:
     cluster_regime_names = json.load(f)
 
 # On ne prend que les noms de régimes avec le .values()
 cluster_regime_names = list(cluster_regime_names.values())
 
 # On récupère la liste des attributions du régime actif par jour 
-data_label = pd.read_csv("donnees_sauvegardees/label_indice.csv")  #On parcourt le fichier .csv    
+data_label = pd.read_csv(data_needed_save_path/"label_indice.csv")  #On parcourt le fichier .csv    
 label_indice = data_label.iloc[:,0].tolist() # On transforme les données en une liste
 # Exemple : 
     # - position 0 : 1er jour de la période considérée
@@ -193,10 +197,10 @@ def fonction_composite(label_indice,drop_feb29,parameter,liste_mois,domaine,mask
     # -----------------------------
     # Choix du dataset selon le paramètre sélectionné
     if parameter == "pr":
-        data_path =   "../data/climatologie/precip_era5_1940_2025.nc"
+        data_path =   path_climatologies/"precip_era5_1940_2025.nc"
     
     elif parameter == "tas":
-        data_path = "../data/climatologie/tas_era5_day_raw_1940-2025.nc"
+        data_path = path_climatologies/"tas_era5_day_raw_1940-2025.nc"
     
     # Définition du domaine
     tuple_latitude,tuple_longitude=choix_domaine(domaine)
@@ -221,7 +225,6 @@ def fonction_composite(label_indice,drop_feb29,parameter,liste_mois,domaine,mask
     # -----------------------------
     # On récupère la liste des numéros de régimes pour chaque jour, en considérant la dernière date dans le dataset
     date_end = len(anom.time)
-    print(date_end)
     label_indice_slice = label_indice[0:date_end]
 
     # -----------------------------
@@ -283,10 +286,10 @@ def fonction_composite_psl_ou_zg500(liste_mois,parameter2,domaine):
     # -----------------------------
     # Choix du dataset selon le paramètre sélectionné
     if parameter2 == "psl":
-        data_path_psl_ou_zg500 = "../data/climatologie/psl_era5_day_raw_1940-2025.nc"
+        data_path_psl_ou_zg500 = path_climatologies/"psl_era5_day_raw_1940-2025.nc"
     
     elif parameter2 == "zg500":
-        data_path_psl_ou_zg500 = "../data/climatologie/zg500_era5_day_raw_1940-2025.nc"
+        data_path_psl_ou_zg500 = path_climatologies/"zg500_era5_day_raw_1940-2025.nc"
 
     # Définition du domaine
     dataset = open_dataset(data_path_psl_ou_zg500)
@@ -307,7 +310,6 @@ def fonction_composite_psl_ou_zg500(liste_mois,parameter2,domaine):
     # -----------------------------
     # On récupère la liste des numéros de régimes pour chaque jour, en considérant la dernière date dans le dataset
     date_end = len(ds.time)
-    print(date_end)
     label_indice_slice = label_indice[:date_end]
 
     # -----------------------------
@@ -348,10 +350,10 @@ def fonction_composite_psl_ou_zg500_tercile(date_33_ou_66,parameter2,domaine):
     # -----------------------------
     # Choix du dataset selon le paramètre sélectionné
     if parameter2 == "psl":
-        data_path_psl_ou_zg500 = "../data/climatologie/psl_era5_day_raw_1940-2025.nc"
+        data_path_psl_ou_zg500 = path_climatologies/"psl_era5_day_raw_1940-2025.nc"
     
     elif parameter2 == "zg500":
-        data_path_psl_ou_zg500 = "../data/climatologie/zg500_era5_day_raw_1940-2025.nc"
+        data_path_psl_ou_zg500 = path_climatologies/"zg500_era5_day_raw_1940-2025.nc"
 
     # Définition du domaine
     dataset = open_dataset(data_path_psl_ou_zg500)
@@ -476,22 +478,15 @@ def affichage_affichage_psl_ou_zg500psl_ou_zg500(liste_mois,parameter2,domaine):
     proj = ccrs.Orthographic(central_longitude=(lonW + lonE)/2, central_latitude=(latS + latN)/2)
 
     # ---------- Min / Max pour info ----------
-    all_data = xr.concat(moyenne_par_point_mois,dim='regime')
 
     # Traitement du paramètre 2 : Pmer (psl) ou zg500 (zg500)
     if parameter2 == "psl" : 
         coeff_pour_bonne_valeur = 100
-        min_anom = float(all_data.min())/coeff_pour_bonne_valeur
-        max_anom = float(all_data.max())/coeff_pour_bonne_valeur
-        print(f"Min anomaly = {min_anom:.3f} hPa")
-        print(f"Max anomaly = {max_anom:.3f} hPa")
+
 
     elif parameter2 =="zg500":
         coeff_pour_bonne_valeur = 10
-        min_anom = float(all_data.min())/coeff_pour_bonne_valeur
-        max_anom = float(all_data.max())/coeff_pour_bonne_valeur
-        print(f"Min anomaly = {min_anom:.3f} damgp")
-        print(f"Max anomaly = {max_anom:.3f} damgp")
+
 
     # ---------- Figure ----------
     fig, axes = plt.subplots(2, 4, figsize=(18, 8), subplot_kw=dict(projection=proj))
@@ -571,11 +566,6 @@ def affichage_composite_une_saison(label_indice,drop_feb29,parameter,parameter2,
         unit_label = '°C'
         parameter_name = "température à 2m"
 
-    # ---------- Min / Max pour info ----------
-    all_data = xr.concat(moyenne_par_point_mois,dim="regime")
-    print(f"Min anomaly = {float(all_data.min()):.3f} {unit_label}")
-    print(f"Max anomaly = {float(all_data.max()):.3f} {unit_label}")
-
     # ---------- Figure ----------
     fig, axes = plt.subplots(2, 4, figsize=(18, 8), subplot_kw=dict(projection=proj))
     axes = axes.flatten()
@@ -630,7 +620,7 @@ def affichage_composite_une_saison(label_indice,drop_feb29,parameter,parameter2,
     abv_domaine = abreviation_domaine(domaine)
 
     # Sauvegarde du fichier
-    plt.savefig(f"../archives/images_composites/{saison_alphabet}_All_{parameter}_{abv_domaine}.png",bbox_inches="tight", pad_inches = 0.3)
+    plt.savefig(save_figure_path/f"{saison_alphabet}_All_{parameter}_{abv_domaine}.png",bbox_inches="tight", pad_inches = 0.3)
 
 def affichage_composite_un_regime(label_indice,drop_feb29,parameter,parameter2,saison,domaine,regime,pression,bootstrap_ok):
     """
@@ -687,22 +677,16 @@ def affichage_composite_un_regime(label_indice,drop_feb29,parameter,parameter2,s
         moyenne_par_point_mois,ds,pourcentage_RdT,liste_stacked_mois= fonction_composite(label_indice, drop_feb29,parameter,liste_saison[i],domaine)
         moyenne_par_point_mois_psl_ou_zg500 = fonction_composite_psl_ou_zg500(liste_saison[i],parameter2,domaine)[1]
 
-        # ---------- Calcul des anomalies minimales et maximales ----------
-        min_anom = float(np.min(moyenne_par_point_mois))
-        max_anom = float(np.max(moyenne_par_point_mois))
+
 
         # ---------- Paramètre considéré ----------
         if parameter == "pr":
-            print(f"Min anomaly = {min_anom:.3f} mm")
-            print(f"Max anomaly = {max_anom:.3f} mm")
             levels_anom = np.arange(-6,6.2,0.25)
             levels_anom_bis = np.arange(-6,6.2,0.5)
             norm = TwoSlopeNorm(vmin=-6, vcenter=0, vmax=6) 
             cmap = plt.get_cmap("BrBG")
 
         elif parameter == "tas":
-            print(f"Min anomaly = {min_anom:.3f} °C")
-            print(f"Max anomaly = {max_anom:.3f} °C")
             levels_anom = np.arange(-5,5.2,0.25)
             levels_anom_bis = np.arange(-5,5.2,0.5)
             norm = TwoSlopeNorm(vmin=-5, vcenter=0, vmax=5)
@@ -756,7 +740,7 @@ def affichage_composite_un_regime(label_indice,drop_feb29,parameter,parameter2,s
     abv_domaine = abreviation_domaine(domaine)
 
     # Sauvegarde du fichier
-    plt.savefig(f"../archives/images_composites/All_{save_regime}_{parameter}_{abv_domaine}.png",bbox_inches="tight", pad_inches = 0.3)
+    plt.savefig(save_figure_path/f"/All_{save_regime}_{parameter}_{abv_domaine}.png",bbox_inches="tight", pad_inches = 0.3)
 
 def affichage_composite_vivaldi(label_indice,drop_feb29,parameter,domaine,pression=False, zg500=False,bootstrap_ok=False):
     """
@@ -887,7 +871,7 @@ def affichage_composite_vivaldi(label_indice,drop_feb29,parameter,domaine,pressi
     abv_domaine = abreviation_domaine(domaine)
 
     # Sauvegarde  du fichier
-    plt.savefig(f"../archives/images_composites/All_All_{parameter}_{abv_domaine}.png",bbox_inches="tight", pad_inches = 0.3)
+    plt.savefig(save_figure_path/f"All_All_{parameter}_{abv_domaine}.png",bbox_inches="tight", pad_inches = 0.3)
 
 def distribution_moyenne_ponderee(label_indice,drop_feb29,parameter,liste_mois,domaine,mask_on,violin=False):
     """
@@ -930,7 +914,6 @@ def distribution_moyenne_ponderee(label_indice,drop_feb29,parameter,liste_mois,d
         # Création du DataFrame pour les violinplots
         df_regime = pd.DataFrame({"regime":[abreviation_regime[i] for k in mean_vals],"anom_tas": mean_vals})
         moyenne_ano_par_regime_sur_domaine_mask_valeurs.append(df_regime)
-        print(f"Régime {cluster_regime_names[i]} : {len(mean_vals)} jours, moyenne = {mean_vals.mean():.2f}")
 
     return liste_stacked_mois_ordre,ds,moyenne_ano_par_regime_sur_domaine_mask_valeurs
 
@@ -976,7 +959,7 @@ def affichage_violin_plots_distribution(label_indice, drop_feb29, parameter, sai
     abv_domaine = abreviation_domaine(domaine)
 
     # Sauvegarde de la figure
-    plt.savefig(f"../archives/images_composites/Violin_{saison_alphabet}_All_{parameter}_{abv_domaine}.png",bbox_inches="tight", pad_inches = 0.3)
+    plt.savefig(save_figure_path/f"Violin_{saison_alphabet}_All_{parameter}_{abv_domaine}.png",bbox_inches="tight", pad_inches = 0.3)
 
 def terciles(label_indice,drop_feb29,parameter,liste_mois,domaine,mask_on=False):
     """
@@ -1167,7 +1150,7 @@ def affichage_terciles(label_indice,drop_feb29,parameter,saison,domaine,regime,m
     abv_domaine = abreviation_domaine(domaine)
 
     # Sauvegarde de la figure
-    plt.savefig(f"../archives/images_composites/{month_plot}_{save_regime}_{parameter}_{abv_domaine}.png",bbox_inches="tight", pad_inches = 0.3)
+    plt.savefig(save_figure_path/f"{month_plot}_{save_regime}_{parameter}_{abv_domaine}.png",bbox_inches="tight", pad_inches = 0.3)
 
 
 ###########################################################
@@ -1180,9 +1163,9 @@ def sauvegarde_1_regime_1_saison_terciles(label_indice,drop_feb29,Parametre,Sais
     """
 
     for R in Regime:
-        for P in Parametre : 
+        for P in Parametre: 
             for D in Domaine:
-                for S in Saison:
+                for S in tqdm(Saison):
                     if D == "Europe" or D == "Global":
                         affichage_terciles(label_indice,drop_feb29,P,S,D,R,mask_on=False,pression=True,zg500 = False)
                     elif D == "France":
@@ -1194,7 +1177,7 @@ def sauvegarde_1_regime_4_saisons(label_indice,drop_feb29,Parametre,Domaine):
     """
     for R in Regime:
         for D in Domaine:
-            for P in Parametre:
+            for P in tqdm(Parametre):
                 if D == "Europe" or D == "Global" :
                     affichage_composite_un_regime(label_indice,drop_feb29,P,"psl","Vivaldi",D,R,pression=True,bootstrap_ok=True)
                 elif D == "France":
@@ -1207,7 +1190,7 @@ def sauvegarde_8_regimes_1_saison(label_indice,drop_feb29,Parametre,parameter2,S
     
     for S in Saison:
         for D in Domaine:
-            for P in Parametre:
+            for P in tqdm(Parametre):
                 if D == "Europe" or D == "Global" :
                     affichage_composite_une_saison(label_indice,drop_feb29,P,parameter2,S,D,pression=True,bootstrap_ok=True)
                 elif D == "France":
@@ -1219,7 +1202,7 @@ def sauvegarde_8_regimes_4_saisons(label_indice,drop_feb29,Parametre,Domaine):
     """
 
     for D in Domaine:
-        for P in Parametre:
+        for P in tqdm(Parametre):
             if D == "Europe" or D == "Global" :
                 affichage_composite_vivaldi(label_indice,drop_feb29,P,D,pression=True,zg500=False,bootstrap_ok=False)
             elif D == "France":
@@ -1231,7 +1214,7 @@ def sauvegarde_violin_plots(label_indice,drop_feb29,Parametre,Saison):
     """
 
     for P in Parametre:
-        for S in Saison:
+        for S in tqdm(Saison):
             affichage_violin_plots_distribution(label_indice,drop_feb29,P,S,"France",mask_on=True)
 
 
@@ -1249,9 +1232,17 @@ def sauvegarde_violin_plots(label_indice,drop_feb29,Parametre,Saison):
 ###########################################################
 # -- Application des fonctions de production des figures --
 ###########################################################
-
+print('début de : 1 regime 1 saison terciles')
 sauvegarde_1_regime_1_saison_terciles(label_indice,drop_feb29,Parametre,Saison,Domaine,Regime)
+print('fin de : 1 regime 1 saison terciles')
+print('début de : 1 regime 4 saison')
 sauvegarde_1_regime_4_saisons(label_indice,drop_feb29,Parametre,Domaine)
+print('fin de : 1 regime 4 saison')
+print('début de : 8 regime 1 saison')
 sauvegarde_8_regimes_1_saison(label_indice,drop_feb29,Parametre,"psl",Saison,Domaine)
+print('fin de : 8 regime 1 saison')
+print('début de : 8 regime 4 saison')
 sauvegarde_8_regimes_4_saisons(label_indice,drop_feb29,Parametre,Domaine)
+print('fin de : 8 regime 4 saison')
+print('début de :  violin plots')
 sauvegarde_violin_plots(label_indice,drop_feb29,Parametre,Saison)
