@@ -73,7 +73,7 @@ Pour récupérer les data qui doivent être placées dans le dossier data, il fa
 ## Usage
 Pour obtenir les images, voici les étapes à suivre : 
 1) Récupérer les données et les mettre dans le dossier data
-2) Lancer le fichier data_maker.py -> stock toutes les données utiles aux plots pour la suite dans le dossier donnees_sauvegardees. Pendant l'execution du script, une image va se créer dans le dossier donnees_sauvegardees avec les numeros de clusteurs. Pour répondre au quizz il faut se baser sur cette image. Vous pouvez avoir la solution en regardant dans le dossier images_documentation dans acrchives.
+2) Lancer le fichier data_maker.py -> stock toutes les données utiles aux plots pour la suite dans le dossier donnees_sauvegardees. Pendant l'execution du script, une image va se créer dans le dossier donnees_sauvegardees avec les numeros de clusteurs. Pour répondre au quizz il faut se baser sur cette image. Vous pouvez avoir la solution en regardant l'image figure_cluster_inti.png dans le dossier images_documentation dans acrchives.
 ```
 cd scripts
 python3 data_maker.py
