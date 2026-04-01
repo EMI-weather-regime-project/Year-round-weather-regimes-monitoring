@@ -104,4 +104,4 @@ Nos encadrants qui nous ont bien aidé sur le projet :
 Vous êtes libre de reprendre notre code en nous mentionnant.
 
 ## Project status
-Preque terminé
+Presque terminé
