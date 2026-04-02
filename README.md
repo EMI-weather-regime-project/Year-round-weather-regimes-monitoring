@@ -152,7 +152,13 @@ On a également intégré un suivi quotitien des régimes toutes saisons interne
 Pour le moment le projet est fini et nous n'allons pas explorer plus loin.
 
 ## Authors and acknowledgment
-Nos encadrants qui nous ont apporté une grande aide sur le projet :
+Authors of the project :
+- Oscar Lorans
+- Killian Mounier
+- Louis Voisin
+- Margaux Verly
+
+Acknowledgment : Nos encadrants qui nous ont apporté une grande aide sur le projet :
 - Frédéric Ferry
 - Onaïa Savary
 - Frédéric Gayrard
@@ -167,7 +173,6 @@ Vous êtes libre de reprendre notre code en nous mentionnant.
 Presque terminé
 
 ## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
 ![Image locale](archives/images_documentation/figure_cluster_init.png)
 &nbsp;
