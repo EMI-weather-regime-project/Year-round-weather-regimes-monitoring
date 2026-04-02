@@ -64,7 +64,8 @@ Après avoir cloné le dépot git, vous devriez avoir cette arborescence là :
         └── 📁 ERA5/
 ```
 
-Pour récupérer les data qui doivent être placées dans le dossier data/climatologie, il faut aller sur le Climate Data Store et prendre les fichiers suivants.
+Si vous souhaitez récupérer vos propres données du Climate Datastore, celles-ci doivent respecter les critères suivants :<br>
+- 
 Si vous souhaitez récupérer les données relatives à seulement quelques années, vous pouvez également suivre la méthodologie du fichier "Récupération_donnees_exemple.txt", dans lequel nous expliquons les commandes nécessaires pour récupérer les données de précipitations de 2023 à 2025.
 Sinon, vous pouvez nous envoyer un mail, et nous vous enverrons les données 😉.
 
