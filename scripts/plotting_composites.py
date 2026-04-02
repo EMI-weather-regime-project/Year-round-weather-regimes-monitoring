@@ -740,7 +740,7 @@ def affichage_composite_un_regime(label_indice,drop_feb29,parameter,parameter2,s
     abv_domaine = abreviation_domaine(domaine)
 
     # Sauvegarde du fichier
-    plt.savefig(save_figure_path/f"/All_{save_regime}_{parameter}_{abv_domaine}.png",bbox_inches="tight", pad_inches = 0.3)
+    plt.savefig(save_figure_path/f"All_{save_regime}_{parameter}_{abv_domaine}.png",bbox_inches="tight", pad_inches = 0.3)
 
 def affichage_composite_vivaldi(label_indice,drop_feb29,parameter,domaine,pression=False, zg500=False,bootstrap_ok=False):
     """
