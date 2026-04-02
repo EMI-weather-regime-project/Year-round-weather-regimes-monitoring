@@ -129,10 +129,11 @@ cd scripts
 python3 recuperer_donnees_manuellement.py
 ```
 
-4) Une fois cela fait, vous pouvez lancer daily-tasks.py --datatype ERA5
+4) Une fois cela fait, vous pouvez lancer daily-tasks.py --datatype ERA5 
 ```
 python3 daily-tasks.py --datatype ERA5
 ```
+Ce programme plot les histogrammes du suivi climatique des deux derniers mois.
 
 5) Si vous n'avez pas toutes les données, il faut modifier l'option "relativedelta(days=5)" dans le script pour changer la date détectée.
 ```
