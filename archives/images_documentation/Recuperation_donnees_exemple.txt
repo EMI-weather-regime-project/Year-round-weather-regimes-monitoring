@@ -1,0 +1,87 @@
+Pour récupérer des données le Climate Datastore, nous vous proposon de suivre un exemple (ici pour les précipitations) et applicables pour une période de l'ordre de quelques années.
+
+Ici, nous récupérons les données de précipitations allant de 2023 à 2025. (Notre jeu de données initial pour les précipitations s'arrêtait en 2022).
+Si comme nous, il vous manque les données de certaines années, pensez à concaténer vos nouvelles données à votre jeu de données incomplet avec le point 2.
+
+
+
+Pensez à activer votre environnement python en vous plaçant dans le dossier Year-round-weather-regimes-monitoring et en exécutant la commande suivante dans un terminal : 
+
+    source .venv/bin/active
+
+
+
+1) Téléchargement des données ERA5 sur le Copernicus Datastore (https://cds.climate.copernicus.eu/datasets/derived-era5-single-levels-daily-statistics?tab=download) => somme journalière des précipitations
+Format : 
+    - longitude : -80°W, 40°E
+    - latitude : 90°N, 30°N
+    - résolution : 0.25°x0.25°
+Placez vos données dans le dossier "data".
+
+
+
+Les points 2) et 3) sont réalisables simultanément (en une seule ligne ;)) après création du fichier du point 2, avec la commande suivante :
+
+    cdo remapbil,grid_1deg.txt -mergetime pr_2023.nc pr_2024.nc pr_2025.nc pr_2026.nc pr_2023_2026_1deg.nc
+
+Vous pourrez ensuite aller directement au point 4.
+
+
+
+2) Fusion temporelle des fichiers :
+Placez-vous dans le dossier "data", puis exécutez la commande suivante :
+
+    cdo mergetime pr_2023.nc pr_2024.nc pr_2025.nc pr_2026.nc pr_2023_2026.nc
+
+
+
+3) Interpolation 1 degré : 
+    a) Création d'un fichier intermédiaire grid_1deg.txt contenant :
+
+        gridtype = lonlat
+        xsize = 121
+        ysize = 61
+        xfirst = -80
+        xinc = 1
+        yfirst = 90
+        yinc = -1
+
+    b) Interpolation :
+    Dans le terminal, exécutez la commande suivante :
+
+        cdo remapbil,grid_1deg.txt pr_2023_2026.nc pr_2023_2026_1deg.nc
+
+
+
+4) Changement des noms de variable : 
+Dans un fichier python recuperation_donnees_datastore.py, copiez et collez les lignes suivantes : 
+
+    import xarray as xr # Import de la librairie xarray
+    ds = xr.open_dataset("pr_2023_2026_1deg.nc") # Ouverture du fichier produit précédemment
+    
+    # On renomme les paramètres du dataset
+    ds = ds.rename({
+        "valid_time": "time",
+        "lat": "latitude",
+        "lon": "longitude",
+        "tp": "pr"
+    })
+
+    # Normalisation des axes temporelles (par sécurité, peut être utile lorsqu'on manipule des fichiers netcdf)
+    ds["time"] = ds.indexes["time"].normalize()
+
+    # Conversion des m/jours en mm/jours :
+    ds["pr"] = ds["pr"]*1000
+    ds["pr"].attrs["units"] = "mm"
+
+    # Sélection d'une tranche temporelle :
+    ds = ds.sel(time=slice(None, "2025-12-31")) # None : pas de date de début précise. 2025-12-31 : date de fin souhaitée du jeu de données 
+    ds.to_netcdf("precip_era5_2023_2025.nc") # Sauvegarde des données sous le format netcdf
+
+Enregistrez le fichier python, puis exécutez la commande suivante dans le terminal : 
+
+    python3 recuperation_donnees_datastore.py 
+
+Et voilà ! Vos données sont prêtes à être utilisées !
+
+
