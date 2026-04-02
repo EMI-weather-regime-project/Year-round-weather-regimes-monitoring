@@ -83,7 +83,7 @@ python3 plotting_monitoring.py
 ```
 python3 plotting_composites.py
 ```
-Ce fichier nécessitant plusieurs heures à l'exécution, il est possible de l'exécuter en 5 fois. Pour cela, il entrez la commande suivante dans le terminale : 
+Ce fichier nécessitant plusieurs heures à l'exécution, il est possible de l'exécuter en 5 fois. Pour cela, entrez la commande suivante dans le terminale : 
 ```
 gedit plotting_composites.py
 ```
