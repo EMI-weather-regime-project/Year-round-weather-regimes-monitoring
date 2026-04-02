@@ -108,7 +108,7 @@ python3 plotting_suivi_climatique.py
 
 Si vous êtes uniquement intéressé par la détermination des clusters et des indices de régime, le script qui vous est utile est data_maker.py
 
-À ce moment là vous avez tout sur la période, si vous voulez avoir le site en temps réel voici les étapes à faire.
+À ce moment là vous avez toutes les images sur la période 1960-2025, si vous souhaitez avoir le site en temps réel voici les étapes à suivre :
 
 1) Bien vérifier que vous avez fait tourner suivi climatique jusqu'au bout, vous devez avoir un fichier climatologie.npy dans votre dossier données_sauvegardées :
 
