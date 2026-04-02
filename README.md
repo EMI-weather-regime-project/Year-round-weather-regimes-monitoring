@@ -101,6 +101,25 @@ python3 plotting_suivi_climatique.py
 
 Si vous êtes uniquement intéressé par la détermination des clusters et des indices de régime, le script qui vous est utile est data_maker.py
 
+À ce moment là vous avez tout sur la période, si vous voulez avoir le site en temps réel voici les étapes à faire.
+
+1) Bien vérifier que vous avez fait tourner suivi climatique jusqu'au bout, vous devez avoir un fichier climatologie.npy dans votre dossier données_sauvegardées :
+
+
+2) Le plus sinmple pour avoir des données directement est d'utiliser ERA5 : vous devez d'abord créer un compte sur le climate_data et ajouter votre clé dans le .cdsapirc dans le dossier Year-round-weather-regimes-monitoring.
+
+
+3) Vous pouvez ensuite lancer le fichier recuperer_donnees_manuellement.py et choisir les dates manquantes (attention à cause du filtrage les 5 prmiers jours seront éffacés donc il est préférable de prendre large. Par exemple entrez 20251225 puis YYYYMMDD -5 Days pour avoir la date la plus récente une fois le script lancé. Vous devrier avoir les données qui s'enregistrent.
+
+
+4) Une fois cela fait, vous pouvez lancer daily-tasks.py --datatype ERA5
+
+
+5) Si vous n'avez pas toutes les données, il faut modifier une ligne dans le script pour changer la date détectée (relativedelta(days=5)).
+
+
+6) Ensuite le script recuperer_nouvelles_donnees.py permet d'avoir les données du jour et vous pouvez mettre un cron en place pour le faire tourner 
+
 ## Support
 Si vous avez des questions, voici les personnes à contacter :
 - oscar.lorans@meteo.fr
