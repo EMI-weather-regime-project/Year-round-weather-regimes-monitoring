@@ -116,7 +116,7 @@ Si vous êtes uniquement intéressé par la détermination des clusters et des i
 2) Les données les plus simples à récupérer sont celles d'ERA5. Vous devez d'abord créer un compte sur le Climate data store et ajouter votre clé dans le .cdsapirc dans le dossier Year-round-weather-regimes-monitoring.
 
 
-3) Vous pouvez ensuite lancer le fichier recuperer_donnees_manuellement.py et choisir les dates manquantes (attention à cause du filtrage les 5 prmiers jours seront éffacés donc il est préférable de prendre large. Par exemple entrez 20251225 puis YYYYMMDD -5 Days pour avoir la date la plus récente une fois le script lancé. Vous devrier avoir les données qui s'enregistrent.
+3) Vous pouvez ensuite lancer le fichier recuperer_donnees_manuellement.py et choisir les dates manquantes (attention à cause du filtrage les 5 premiers jours seront effacés donc il est préférable de prendre large. Par exemple entrez 20251225 puis YYYYMMDD -5 Days pour avoir la date la plus récente une fois le script lancé. Vous devriez avoir les données qui s'enregistrent.
 
 
 4) Une fois cela fait, vous pouvez lancer daily-tasks.py --datatype ERA5
