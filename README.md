@@ -94,7 +94,7 @@ Une fois que celui-ci à fini de tourner, si vous souhaitez avoir les histogramm
 ```
 gedit plotting_suivi_climatique.py
 ```
-Puis tout en bas, dans la section "Génération des histogrammes" du fichier, commentez (ajoutez # devant la ligne) la ligne de sauvegarde relative à 1991-2025 et décommentez (enelvez le # devant la ligne) la ligne de sauvegarde remative à 1960-1990. Ensuite, exécutez à nouveau la commande :
+Puis tout en bas, dans la section "Génération des histogrammes" du fichier, commentez (ajoutez # devant la ligne) la ligne de sauvegarde relative à 1991-2025 et décommentez (enlevez le # devant la ligne) la ligne de sauvegarde relative à 1960-1990. Enregistrez les modifications et exécutez à nouveau la commande :
 ```
 python3 plotting_suivi_climatique.py
 ```
