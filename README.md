@@ -152,3 +152,9 @@ Depending on what you are making, it can be a good idea to include screenshots o
 &nbsp;
 &nbsp;
 ![Image locale](archives/images_documentation/smooth2.png)
+&nbsp;
+&nbsp;
+![Image locale](archives/images_documentation/figure_WRInouv.png)
+&nbsp;
+&nbsp;
+![Image locale](archives/images_documentation/figure_courbesWRI.png)
