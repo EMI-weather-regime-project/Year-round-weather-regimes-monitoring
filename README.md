@@ -3,9 +3,6 @@
 ## Description
 L’objectif du projet est d’implémenter la méthode de calcul des régimes de temps « toutes saisons » sur l’Atlantique nord puis de faire un site web en temps réel de produits de suivi climatique et quotidien des régimes de temps toutes saisons. Le code est à disposition sur le git et voici le [lien du site](http://sotrtm38-sidev/~voisinl/menu.html) (disponible uniquement en interne pour l'instant).
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
 ## Installation
 ### Mise en place pour récupérer le git :
 
@@ -147,3 +144,8 @@ Vous êtes libre de reprendre notre code en nous mentionnant.
 
 ## Project status
 Presque terminé
+
+## Visuals
+Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+![Image locale](archives/images_documentation/figure_cluster_init.png)
+![Image locale](archives/images_documentation/smooth2.png)
