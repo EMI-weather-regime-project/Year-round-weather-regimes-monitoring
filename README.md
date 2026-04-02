@@ -113,7 +113,7 @@ Si vous êtes uniquement intéressé par la détermination des clusters et des i
 1) Bien vérifier que vous avez fait tourner suivi climatique jusqu'au bout, vous devriez avoir un fichier climatologie.npy dans votre dossier données_sauvegardées.
 
 
-2) Les données les plus simples à récupérer sont celles d'ERA5. Vous devez d'abord créer un compte sur le Climate data store et l'activer. Ensuite, aller sur votre profil et ajoutez votre clé dans le .cdsapirc dans le dossier Year-round-weather-regimes-monitoring qu evous trouverez dans la section API key.
+2) Les données les plus simples à récupérer sont celles d'ERA5. Vous devez d'abord créer un compte sur le Climate data store et l'activer. Ensuite, allez sur votre profil et ajoutez votre clé dans le .cdsapirc dans le dossier Year-round-weather-regimes-monitoring que vous trouverez dans la section API key.
 
 
 3) Vous pouvez ensuite lancer le fichier recuperer_donnees_manuellement.py et choisir les dates manquantes (attention à cause du filtrage les 5 premiers jours seront effacés donc il est préférable de prendre large. Par exemple entrez 20251225 puis YYYYMMDD -5 Days pour avoir la date la plus récente une fois le script lancé. Vous devriez avoir les données qui s'enregistrent.
