@@ -86,6 +86,14 @@ python3 plotting_monitoring.py
 ```
 python3 plotting_composites.py
 ```
+Une fois que celui-ci à fini de tourner, si vous souhaitez avoir les histogrammes de suivi pour la période 1960-1990, exécuter la commande suivante :
+```
+gedit plotting_composites.py
+```
+Puis tout en bas, dans la section "Génération des histogrammes" du fichier, commentez (ajoutez # devant la ligne) la ligne de sauvegarde relative à 1991-2025 et décommentez (enelvez le # devant la ligne) la ligne de sauvegarde remative à 1960-1990. Ensuite, exécutez à nouveau la commande :
+```
+python3 plotting_composites.py
+```
 5) Lancer le fichier plotting_suivi_climatique.py -> permet de sauvegarder les graphiques de suivi dans le dossier images_suivi_climatique
 ```
 python3 plotting_suivi_climatique.py
