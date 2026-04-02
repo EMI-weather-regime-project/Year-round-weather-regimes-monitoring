@@ -1232,17 +1232,23 @@ def sauvegarde_violin_plots(label_indice,drop_feb29,Parametre,Saison):
 ###########################################################
 # -- Application des fonctions de production des figures --
 ###########################################################
+
 print('début de : 1 regime 1 saison terciles')
 sauvegarde_1_regime_1_saison_terciles(label_indice,drop_feb29,Parametre,Saison,Domaine,Regime)
 print('fin de : 1 regime 1 saison terciles')
+
 print('début de : 1 regime 4 saison')
 sauvegarde_1_regime_4_saisons(label_indice,drop_feb29,Parametre,Domaine)
 print('fin de : 1 regime 4 saison')
+
 print('début de : 8 regime 1 saison')
 sauvegarde_8_regimes_1_saison(label_indice,drop_feb29,Parametre,"psl",Saison,Domaine)
 print('fin de : 8 regime 1 saison')
+
 print('début de : 8 regime 4 saison')
 sauvegarde_8_regimes_4_saisons(label_indice,drop_feb29,Parametre,Domaine)
 print('fin de : 8 regime 4 saison')
+
 print('début de :  violin plots')
 sauvegarde_violin_plots(label_indice,drop_feb29,Parametre,Saison)
+print('fin de : violin plots')
