@@ -122,7 +122,7 @@ Ensuite, vous devez créer un compte sur le Climate data store et l'activer. Pui
 gedit .cdsapirc
 ```
 
-3) Vous pouvez ensuite lancer le fichier recuperer_donnees_manuellement.py et choisir les dates manquantes (attention à cause du filtrage les 5 premiers jours seront effacés donc il est préférable de prendre large. Par exemple entrez 20251225 puis YYYYMMDD -5 Days pour avoir la date la plus récente une fois le script lancé. Vous devriez avoir les données qui s'enregistrent.
+3) Vous pouvez ensuite lancer le fichier recuperer_donnees_manuellement.py et choisir les dates manquantes (attention à cause du filtrage les 5 premiers jours seront effacés donc il est préférable de prendre large. Par exemple entrez 20251225 puis YYYYMMDD -5 Days pour avoir la date la plus récente une fois le script lancé. Vous devriez avoir les données qui s'enregistrent. Il est préférable de prendre les données jusqu'aux dernières disponibles pafin de ne pas avoir à modifier le code.
 ```
 cd scripts
 python3 recuperer_donnees_manuellement.py
@@ -133,10 +133,12 @@ python3 recuperer_donnees_manuellement.py
 python3 daily-tasks.py --datatype ERA5
 ```
 
-5) Si vous n'avez pas toutes les données, il faut modifier une ligne dans le script pour changer la date détectée (relativedelta(days=5)).
+5) Si vous n'avez pas toutes les données, il faut modifier l'option "relativedelta(days=5)" dans le script pour changer la date détectée.
+```
+gedit daily-tasks.py
+```
 
-
-6) Ensuite le script recuperer_nouvelles_donnees.py permet d'avoir les données du jour et vous pouvez mettre un cron en place pour le faire tourner.
+6) Le script recuperer_nouvelles_donnees.py permet de récupérer les données du jour et vous pouvez mettre en place un cron pour le faire tourner automatiquement.
 
 ## Support
 Si vous avez des questions, voici les personnes à contacter :
