@@ -83,6 +83,16 @@ python3 plotting_monitoring.py
 ```
 python3 plotting_composites.py
 ```
+Ce fichier nécessitant plusieurs heures à l'exécution, il est possible de l'exécuter en 5 fois. Pour cela, il entrez la commande suivante dans le terminale : 
+```
+gedit plotting_composites.py
+```
+Puis, tout en bas du fichier, dans la section "Application des fonctions de production des figures", laissez décommentées (sans # en début de ligne) les lignes relatives aux figures que vous souhaitez générer, et commentez (ajoutez un # en début de ligne) le reste des lignes de la section. Par exemple, pour générer les terciles, ne mettes pas de # en début des trois premières lignes, mais ajoutez-en aux lignes suivante. N'oubliez pas d'enregistrer vos modifications. Puis exécutez le programme avec la commande suivante :
+```
+python3 plotting_composites.py
+```
+Ré-exéctuez ces opérations autant de fois que nécessaire pour générer les figures !
+
 5) Lancer le fichier plotting_suivi_climatique.py -> permet de sauvegarder les graphiques de suivi dans le dossier images_suivi_climatique
 ```
 python3 plotting_suivi_climatique.py
