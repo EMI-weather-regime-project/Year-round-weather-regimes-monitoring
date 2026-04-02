@@ -149,8 +149,6 @@ Presque terminé
 Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
 ![Image locale](archives/images_documentation/figure_cluster_init.png)
-&nbsp;
-&nbsp;
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ![Image locale](archives/images_documentation/smooth2.png)
 &nbsp;
