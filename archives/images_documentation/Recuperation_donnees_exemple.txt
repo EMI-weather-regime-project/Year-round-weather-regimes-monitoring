@@ -1,4 +1,4 @@
-Pour récupérer des données le Climate Datastore, nous vous proposon de suivre un exemple (ici pour les précipitations) et applicables pour une période de l'ordre de quelques années.
+Pour récupérer des données le Climate Datastore, nous vous proposons de suivre un exemple (ici pour les précipitations) et applicables pour une période de l'ordre de quelques années.
 
 Ici, nous récupérons les données de précipitations allant de 2023 à 2025. (Notre jeu de données initial pour les précipitations s'arrêtait en 2022).
 Si comme nous, il vous manque les données de certaines années, pensez à concaténer vos nouvelles données à votre jeu de données incomplet avec le point 2.
@@ -16,7 +16,7 @@ Format :
     - longitude : -80°W, 40°E
     - latitude : 90°N, 30°N
     - résolution : 0.25°x0.25°
-Placez vos données dans le dossier "data".
+Placez vos données dans le dossier "data/climatologie".
 
 
 
@@ -29,7 +29,7 @@ Vous pourrez ensuite aller directement au point 4.
 
 
 2) Fusion temporelle des fichiers :
-Placez-vous dans le dossier "data", puis exécutez la commande suivante :
+Toujours dans le dossier "data/toujours", puis exécutez la commande suivante :
 
     cdo mergetime pr_2023.nc pr_2024.nc pr_2025.nc pr_2026.nc pr_2023_2026.nc
 
@@ -54,7 +54,7 @@ Placez-vous dans le dossier "data", puis exécutez la commande suivante :
 
 
 4) Changement des noms de variable : 
-Dans un fichier python recuperation_donnees_datastore.py, copiez et collez les lignes suivantes : 
+Créez un fichier python recuperation_donnees_datastore.py, et copiez et collez les lignes suivantes : 
 
     import xarray as xr # Import de la librairie xarray
     ds = xr.open_dataset("pr_2023_2026_1deg.nc") # Ouverture du fichier produit précédemment
