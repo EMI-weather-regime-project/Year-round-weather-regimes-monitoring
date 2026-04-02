@@ -117,7 +117,10 @@ Si vous êtes uniquement intéressé par la détermination des clusters et des i
 ```
 touch .cdsapirc
 ```
-Ensuite, vous devez créer un compte sur le Climate data store et l'activer. Puis, allez sur votre profil et ajoutez votre clé (que vous trouverez dans la section API key) dans le .cdsapirc.
+Ensuite, vous devez créer un compte sur le Climate data store et l'activer. Puis, allez sur votre profil et ajoutez votre clé (que vous trouverez dans la section API key) dans le .cdsapirc :
+```
+gedit .cdsapirc
+```
 
 
 3) Vous pouvez ensuite lancer le fichier recuperer_donnees_manuellement.py et choisir les dates manquantes (attention à cause du filtrage les 5 premiers jours seront effacés donc il est préférable de prendre large. Par exemple entrez 20251225 puis YYYYMMDD -5 Days pour avoir la date la plus récente une fois le script lancé. Vous devriez avoir les données qui s'enregistrent.
