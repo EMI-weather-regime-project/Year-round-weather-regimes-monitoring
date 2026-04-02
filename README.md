@@ -113,8 +113,9 @@ Si vous êtes uniquement intéressé par la détermination des clusters et des i
 1) Bien vérifier que vous avez fait tourner suivi climatique jusqu'au bout, vous devriez avoir un fichier climatologie.npy dans votre dossier données_sauvegardées.
 
 
-2) Les données les plus simples à récupérer sont celles d'ERA5. Tout d'abord, créez un fichier .cdsapirc dans le dossier Year-round-weather-regimes-monitoring :
+2) Les données les plus simples à récupérer sont celles d'ERA5. Tout d'abord, créez un fichier .cdsapirc à la racine de votre pc :
 ```
+cd ~
 touch .cdsapirc
 ```
 Ensuite, vous devez créer un compte sur le Climate data store et l'activer. Puis, allez sur votre profil et ajoutez votre clé (que vous trouverez dans la section API key dans votre profil) dans le .cdsapirc et enregistrez vos modifications:
