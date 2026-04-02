@@ -110,7 +110,7 @@ Si vous êtes uniquement intéressé par la détermination des clusters et des i
 
 À ce moment là vous avez toutes les images sur la période 1960-2025, si vous souhaitez avoir le site en temps réel voici les étapes à suivre :
 
-1) Bien vérifier que vous avez fait tourner suivi climatique jusqu'au bout, vous devez avoir un fichier climatologie.npy dans votre dossier données_sauvegardées :
+1) Bien vérifier que vous avez fait tourner suivi climatique jusqu'au bout, vous devriez avoir un fichier climatologie.npy dans votre dossier données_sauvegardées.
 
 
 2) Le plus sinmple pour avoir des données directement est d'utiliser ERA5 : vous devez d'abord créer un compte sur le climate_data et ajouter votre clé dans le .cdsapirc dans le dossier Year-round-weather-regimes-monitoring.
