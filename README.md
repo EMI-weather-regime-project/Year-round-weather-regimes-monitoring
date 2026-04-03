@@ -166,7 +166,7 @@ crontab -l #voir tous les cron actifs
 ```
 crontab -r #effacer tout les cron
 ```                    
-Pour ouvrir les .log et vérifier que le cron est fonctionné au bon horaire :
+Pour ouvrir les .log et vérifier que le cron ait fonctionné pour les bonnes horaires :
 ```
 more /tmp/daily.log  #exemple
 ```  
