@@ -149,7 +149,7 @@ crontab -e  #ouvrir le planificateur cron
 ``` 
 Puis dans le planificateur écrire : # Pour écrire dans le planificateur appuyer sur "i"
 ```
-30 8 * * *   chemin_absolu/lancer_daily.sh > /tmp/daily.log                #Effectue les commandes dans le fichier .sh et renvoie les erreurs ou retour sur /tmp/daily.log
+30 8 * * *   chemin_absolu/lancer_daily.sh > /tmp/daily.log   #Effectue les commandes dans le fichier .sh et renvoie les erreurs ou retour sur /tmp/daily.log
 ```
 ```
 0 0 12 1 */10 chemin_absolu/fonctions_composites.py > /tmp/composite.log
