@@ -154,12 +154,12 @@ Puis dans le planificateur écrire : # Pour écrire dans le planificateur appuye
 ```
 0 0 12 1 */10 chemin_absolu/fonctions_composites.py > /tmp/composite.log
 ```  
-Attention ! modifiez les routes à l'intérieur des fichiers .sh
+Attention ! modifiez les routes à l'intérieur des fichiers .sh :
 
-Avec chemin_absolu le chemin absolu pour atteindre le fichier recherché
-Quitter le mode écriture : touche "échap"
-Sauvegarder le cron : ":w"
-Quitter le planificateur : ":q"
+- Avec chemin_absolu : le chemin absolu pour atteindre le fichier recherché
+- Quitter le mode écriture : touche "échap"
+- Sauvegarder le cron : ":w"
+- Quitter le planificateur : ":q"
 ```
 crontab -l #voir tous les cron actifs
 ```
