@@ -132,7 +132,7 @@ if DATA_TYPE == 'ERA5':
     pathlist.sort()
     print(pathlist)
     new_data = xr.open_mfdataset(pathlist, coords='minimal', combine='nested', concat_dim='time')
-    new_data = rename(new_data['z'])/10 #########A VERIFIER
+    new_data = rename(new_data['z'])/9.81
     new_data = new_data.drop_duplicates('time') #permet d'enlever les doubles temps s'il y en a 
     new_data = new_data.resample(time="1D").asfreq()
     new_data = new_data.sel(time = slice(None, date_actuelle))
