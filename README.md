@@ -16,7 +16,7 @@ git clone https://github.com/EMI-weather-regime-project/Year-round-weather-regim
 cd Year-round-weather-regimes-monitoring
 ```
 
-3) Créer un environnement virtuel compatible (dans le dossier : regimes-de-temps-toutes-saisons)
+3) Créer un environnement virtuel compatible (dans le dossier : Year-round-weather-regimes-monitoring)
 
 Sous linux :
 
@@ -27,7 +27,7 @@ pip install -r requirements.txt #installer les librairies necessaires
 ```
 
 ## Arborescence
-Après avoir cloné le dépot git, vous devriez avoir cette arborescence là : 
+Après avoir cloné le dépôt git, vous devriez avoir cette arborescence-là : 
 ```
 
 📁 Year-round-weather-regimes-monitoring/
@@ -71,17 +71,17 @@ Sinon, vous pouvez nous envoyer un mail, et nous vous enverrons les données �
 
 ## Usage
 Pour obtenir les images, voici les étapes à suivre : 
-1) Récupérer les données et les mettre dans le dossier data/climatologie
-2) Lancer le fichier data_maker.py -> stock toutes les données utiles aux plots pour la suite dans le dossier donnees_sauvegardees. Pendant l'execution du script, une image va se créer dans le dossier donnees_sauvegardees avec les numeros de clusteurs. Pour répondre au quizz il faut se baser sur cette image. Vous pouvez avoir la solution en regardant l'image figure_cluster_inti.png dans le dossier images_documentation dans acrchives.
+1) Récupérez les données et les mettre dans le dossier data/climatologie
+2) Lancez le fichier data_maker.py -> stocke toutes les données utiles aux plots pour la suite dans le dossier donnees_sauvegardees. Pendant l'exécution du script, une image va se créer dans le dossier donnees_sauvegardees avec les numéros de clusters, vous permettant de deviner les réponses au quiz. Sinon, vous aurez la solution en regardant l'image figure_cluster_inti.png dans le dossier images_documentation dans archives.
 ```
 cd scripts
 python3 data_maker.py
 ```
-3) Lancer le fichier plotting_monitoring.py (long) -> permet de sauvegarder les graphiques mensuels et annuels des indices de régimes dans le dossier images_monitoring
+3) Lancez le fichier plotting_monitoring.py (long) -> permet de sauvegarder les graphiques mensuels et annuels des indices de régime dans le dossier images_monitoring
 ```
 python3 plotting_monitoring.py
 ```
-4) Lancer le fichier plotting_composites.py (long) -> permet de sauvegarder l'ensemble des composites dans le dossier images_composites
+4) Lancez le fichier plotting_composites.py (long) -> permet de sauvegarder l'ensemble des composites dans le dossier images_composites
 ```
 python3 plotting_composites.py
 ```
@@ -95,11 +95,11 @@ python3 plotting_composites.py
 ```
 Ré-exéctuez ces opérations autant de fois que nécessaire pour générer les figures. Nota bene : Vous pouvez exécuter les 9 dernières lignes d'un jet du fait de la rapidité de certaines fonctions !
 
-5) Lancer le fichier plotting_suivi_climatique.py -> permet de sauvegarder les graphiques de suivi dans le dossier images_suivi_climatique
+5) Lancez le fichier plotting_suivi_climatique.py -> permet de sauvegarder les graphiques de suivi dans le dossier images_suivi_climatique
 ```
 python3 plotting_suivi_climatique.py
 ```
-Une fois que celui-ci à fini de tourner, si vous souhaitez avoir les histogrammes de suivi pour la période 1960-1990, exécuter la commande suivante :
+Une fois que celui-ci à fini de tourner, si vous souhaitez générer les histogrammes de suivi pour la période 1960-1990, exécutez la commande suivante :
 ```
 gedit plotting_suivi_climatique.py
 ```
@@ -110,9 +110,9 @@ python3 plotting_suivi_climatique.py
 
 Si vous êtes uniquement intéressé par la détermination des clusters et des indices de régime, le script qui vous est utile est data_maker.py
 
-À ce moment là vous avez toutes les images sur la période 1960-2025, si vous souhaitez avoir le site en temps réel voici les étapes à suivre :
+Désormais, vous avez généré toutes les images sur la période 1960-2025. Si vous souhaitez avoir le site en temps réel voici les étapes à suivre :
 
-1) Bien vérifier que vous avez fait tourner suivi climatique jusqu'au bout, vous devriez avoir un fichier climatologie.npy dans votre dossier données_sauvegardées.
+1) Bien vérifier que vous avez fait tourner plotting_suivi_climatique.py jusqu'au bout (et que vous avez toutes les images de 1960 à 2025 si vous souhaitiez les générer toutes). Vous devriez avoir un fichier climatologie.npy dans votre dossier données_sauvegardées.
 
 
 2) Les données les plus simples à récupérer sont celles d'ERA5. Tout d'abord, créez un fichier .cdsapirc à la racine de votre pc :
@@ -125,30 +125,30 @@ Ensuite, vous devez créer un compte sur le Climate data store et l'activer. Pui
 gedit .cdsapirc
 ```
 
-3) Vous pouvez ensuite lancer le fichier recuperer_donnees_manuellement.py et choisir les dates manquantes (attention à cause du filtrage les 5 premiers jours seront effacés donc il est préférable de prendre large. Par exemple entrez 20251225 puis YYYYMMDD -5 Days pour avoir la date la plus récente une fois le script lancé. Vous devriez avoir les données qui s'enregistrent. Il est préférable de prendre les données jusqu'aux dernières disponibles pafin de ne pas avoir à modifier le code.
+3) Vous pouvez ensuite lancer le fichier recuperer_donnees_manuellement.py et choisir les dates manquantes (entre 2025 et aujourd'hui). Attention, à cause du filtrage les 5 premiers jours seront effacés donc il est préférable de prendre large. Par exemple pour avoir la date la plus récente, entrez 20251225 puis YYYYMMDD -5 Days une fois le script lancé. Les données devraient alors s'enregistrer. Il est préférable de prendre les données jusqu'aux dernières disponibles afin de ne pas avoir à modifier le code.
 ```
 cd scripts
 python3 recuperer_donnees_manuellement.py
 ```
 
-4) Une fois cela fait, vous pouvez lancer daily-tasks.py --datatype ERA5 
+4) Une fois cela fait, vous pourrez lancer daily-tasks.py --datatype ERA5 
 ```
 python3 daily-tasks.py --datatype ERA5
 ```
 Ce programme plot les histogrammes du suivi climatique des deux derniers mois.
 
-5) Si vous n'avez pas toutes les données, il faut modifier l'option "relativedelta(days=5)" dans le script pour changer la date détectée.
+5) Si vous n'avez pas toutes les données, il vous faut modifier l'option "relativedelta(days=5)" dans le script pour changer la date détectée.
 ```
 gedit daily-tasks.py
 ```
 
-6) Le script recuperer_nouvelles_donnees.py permet de récupérer les données du jour et vous pouvez mettre en place un cron journalier pour le faire tourner automatiquement ainsi que la récupération des données avec recuperer_nouvelles_donnees.py.
+6) Le script recuperer_nouvelles_donnees.py permet de récupérer les données du jour. Vous pouvez mettre en place un cron journalier pour le faire tourner automatiquement ainsi que la récupération des données avec recuperer_nouvelles_donnees.py.
    
-7) Vous pouvez également faire tourner le temps réel avec l'analyse CEP cependant il n'est pas possible de récupérer les données facilement en dehors de celles récentes donc dans l'idéal vous devez faire tourner le script de récupération de données pendant 11 jours avant d'avoir une courbe (à cause du filtrage). Pour lancer daily-tasks.py avec CEP (ne produit que le graphique avec la courbe et les bulles) vous devez faire la commande suivante :
+7) Vous pouvez également faire tourner le temps réel avec l'analyse CEP. Cependant il n'est pas possible de récupérer les données facilement si elles ne sont pas récentes. De ce fait, dans l'idéal vous devez faire tourner le script de récupération de données pendant 11 jours avant d'avoir une courbe (à cause du filtrage). Pour lancer daily-tasks.py avec CEP (ne produit que le graphique avec la courbe et les bulles) vous devez exécuter la commande suivante :
 ```
 python3 daily-tasks.py --datatype AnaCEP
 ```
-8) Enfin si vous pensez avoir tout ce dont vous avez besoin amusez vous sur le site en ouvrant le fichier menu.html dans votre navigateur préféré.
+8) Enfin si vous pensez avoir tout ce dont vous avez besoin, amusez-vous sur le site en ouvrant le fichier menu.html dans votre navigateur préféré.
 
 ## Support
 Si vous avez des questions, voici les personnes à contacter :
@@ -158,10 +158,10 @@ Si vous avez des questions, voici les personnes à contacter :
 - margaux.verly@meteo.fr
 
 ## Roadmap
-On a également intégré un suivi quotitien des régimes toutes saisons interne à Météo-France sur un site web.
+Nous avons également intégré un suivi quotitien des régimes toutes saisons interne à Météo-France sur un site web.
 
 ## Contributing
-Pour le moment le projet est fini et nous n'allons pas explorer plus loin.
+Pour le moment le projet est fini et nous n'allons pas explorer plus loin. Eventuellement, dans un futur incertain, nous nous intéresserons à l'intégration de prévisions.
 
 ## Authors and acknowledgment
 Authors of the project :
@@ -182,7 +182,7 @@ Acknowledgment : Nos encadrants qui nous ont apporté une grande aide sur le pro
 Vous êtes libre de reprendre notre code en nous mentionnant.
 
 ## Project status
-Presque terminé
+Terminé pour le moment.
 
 ## Visuals
 
