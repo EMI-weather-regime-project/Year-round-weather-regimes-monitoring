@@ -144,24 +144,34 @@ gedit daily-tasks.py
 
 6) Le script recuperer_nouvelles_donnees.py permet de récupérer les données du jour. Vous pouvez mettre en place un cron journalier pour le faire tourner automatiquement ainsi que la récupération des données avec recuperer_nouvelles_donnees.py.
 Exemple commande :
+```
 crontab -e  #ouvrir le planificateur cron
+``` 
 Puis dans le planificateur écrire : # Pour écrire dans le planificateur appuyer sur "i"
-
-30 8 * * *   chemin_absolu/lancer_daily.sh > /tmp/daily.log                # Effectue les commandes dans le fichier .sh et renvoie les erreurs ou retour sur /tmp/daily.log
+```
+30 8 * * *   chemin_absolu/lancer_daily.sh > /tmp/daily.log                #Effectue les commandes dans le fichier .sh et renvoie les erreurs ou retour sur /tmp/daily.log
+```
+```
 0 0 12 1 */10 chemin_absolu/fonctions_composites.py > /tmp/composite.log
+```  
 Attention ! modifiez les routes à l'intérieur des fichiers .sh
 
 Avec chemin_absolu le chemin absolu pour atteindre le fichier recherché
 Quitter le mode écriture : touche "échap"
 Sauvegarder le cron : ":w"
 Quitter le planificateur : ":q"
-                   
+```
 crontab -l #voir tous les cron actifs
-crontab -r effacer tout les cron
+```
+```
+crontab -r #effacer tout les cron
+```                    
 Pour ouvrir les .log et vérifier que le cron est fonctionné au bon horaire :
+```
 more /tmp/daily.log  #exemple
+```  
 
-8) Vous pouvez également faire tourner le temps réel avec l'analyse CEP. Cependant il n'est pas possible de récupérer les données facilement si elles ne sont pas récentes. De ce fait, dans l'idéal vous devez faire tourner le script de récupération de données pendant 11 jours avant d'avoir une courbe (à cause du filtrage). Pour lancer daily-tasks.py avec CEP (ne produit que le graphique avec la courbe et les bulles) vous devez exécuter la commande suivante :
+7) Vous pouvez également faire tourner le temps réel avec l'analyse CEP. Cependant il n'est pas possible de récupérer les données facilement si elles ne sont pas récentes. De ce fait, dans l'idéal vous devez faire tourner le script de récupération de données pendant 11 jours avant d'avoir une courbe (à cause du filtrage). Pour lancer daily-tasks.py avec CEP (ne produit que le graphique avec la courbe et les bulles) vous devez exécuter la commande suivante :
 ```
 python3 daily-tasks.py --datatype AnaCEP
 ```
