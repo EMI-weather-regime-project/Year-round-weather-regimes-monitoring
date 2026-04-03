@@ -64,7 +64,7 @@ Après avoir cloné le dépôt git, vous devriez avoir cette arborescence-là :
         └── 📁 ERA5/
 ```
  
-Si vous souhaitez récupérer les données relatives à seulement quelques années, vous pouvez également suivre la méthodologie du fichier "Récupération_donnees_exemple.txt", dans lequel nous expliquons les commandes nécessaires pour récupérer les données de précipitations de 2023 à 2025.
+Si vous souhaitez récupérer les données relatives à seulement quelques années, vous pouvez également suivre la méthodologie du fichier "Recuperation_donnees_exemple.txt", dans lequel nous expliquons les commandes nécessaires pour récupérer les données de précipitations de 2023 à 2025.
 Sinon, vous pouvez nous envoyer un mail, et nous vous enverrons les données 😉.
 
 
