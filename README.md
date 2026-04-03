@@ -9,14 +9,14 @@ L’objectif du projet est d’implémenter la méthode de calcul des régimes d
 Nous utilisons **python 3.12.3** (utiliser pyenv pour changer de version si besoin)
 
 1) Se placer dans un dossier racine sur votre machine et ouvrir un terminal (par exemple : Projet EMI)
-2) Cloner le dépot git :
+2) Cloner le dépôt git :
 
 ```
 git clone https://github.com/EMI-weather-regime-project/Year-round-weather-regimes-monitoring.git
 cd Year-round-weather-regimes-monitoring
 ```
 
-3) Créer un environnement virtuel compatible (dans le dossier : Year-round-weather-regimes-monitoring)
+3) Créez un environnement virtuel compatible (dans le dossier : Year-round-weather-regimes-monitoring)
 
 Sous linux :
 
@@ -72,7 +72,7 @@ Sinon, vous pouvez nous envoyer un mail, et nous vous enverrons les données �
 ## Usage
 Pour obtenir les images, voici les étapes à suivre : 
 1) Récupérez les données et les mettre dans le dossier data/climatologie
-2) Lancez le fichier data_maker.py -> stocke toutes les données utiles aux plots pour la suite dans le dossier donnees_sauvegardees. Pendant l'exécution du script, une image va se créer dans le dossier donnees_sauvegardees avec les numéros de clusters, vous permettant de deviner les réponses au quiz. Sinon, vous aurez la solution en regardant l'image figure_cluster_inti.png dans le dossier images_documentation dans archives.
+2) Lancez le fichier data_maker.py -> stocke toutes les données utiles aux plots pour la suite dans le dossier donnees_sauvegardees. Pendant l'exécution du script, une image va se créer dans le dossier donnees_sauvegardees avec les numéros de clusters, vous permettant de deviner les réponses au quiz. Sinon, vous aurez la solution en regardant l'image figure_cluster_init.png dans le dossier images_documentation dans archives.
 ```
 cd scripts
 python3 data_maker.py
@@ -135,7 +135,7 @@ python3 recuperer_donnees_manuellement.py
 ```
 python3 daily-tasks.py --datatype ERA5
 ```
-Ce programme plot les histogrammes du suivi climatique des deux derniers mois.
+Ce programme plot les histogrammes du suivi climatique des deux derniers mois ainsi que les graphiques liés au suivi quotidien (monitoring).
 
 5) Si vous n'avez pas toutes les données, il vous faut modifier l'option "relativedelta(days=5)" dans le script pour changer la date détectée.
 ```
@@ -143,8 +143,25 @@ gedit daily-tasks.py
 ```
 
 6) Le script recuperer_nouvelles_donnees.py permet de récupérer les données du jour. Vous pouvez mettre en place un cron journalier pour le faire tourner automatiquement ainsi que la récupération des données avec recuperer_nouvelles_donnees.py.
-   
-7) Vous pouvez également faire tourner le temps réel avec l'analyse CEP. Cependant il n'est pas possible de récupérer les données facilement si elles ne sont pas récentes. De ce fait, dans l'idéal vous devez faire tourner le script de récupération de données pendant 11 jours avant d'avoir une courbe (à cause du filtrage). Pour lancer daily-tasks.py avec CEP (ne produit que le graphique avec la courbe et les bulles) vous devez exécuter la commande suivante :
+Exemple commande :
+crontab -e  #ouvrir le planificateur cron
+Puis dans le planificateur écrire : # Pour écrire dans le planificateur appuyer sur "i"
+
+30 8 * * *   chemin_absolu/lancer_daily.sh > /tmp/daily.log                # Effectue les commandes dans le fichier .sh et renvoie les erreurs ou retour sur /tmp/daily.log
+0 0 12 1 */10 chemin_absolu/fonctions_composites.py > /tmp/composite.log
+Attention ! modifiez les routes à l'intérieur des fichiers .sh
+
+Avec chemin_absolu le chemin absolu pour atteindre le fichier recherché
+Quitter le mode écriture : touche "échap"
+Sauvegarder le cron : ":w"
+Quitter le planificateur : ":q"
+                   
+crontab -l #voir tous les cron actifs
+crontab -r effacer tout les cron
+Pour ouvrir les .log et vérifier que le cron est fonctionné au bon horaire :
+more /tmp/daily.log  #exemple
+
+8) Vous pouvez également faire tourner le temps réel avec l'analyse CEP. Cependant il n'est pas possible de récupérer les données facilement si elles ne sont pas récentes. De ce fait, dans l'idéal vous devez faire tourner le script de récupération de données pendant 11 jours avant d'avoir une courbe (à cause du filtrage). Pour lancer daily-tasks.py avec CEP (ne produit que le graphique avec la courbe et les bulles) vous devez exécuter la commande suivante :
 ```
 python3 daily-tasks.py --datatype AnaCEP
 ```
