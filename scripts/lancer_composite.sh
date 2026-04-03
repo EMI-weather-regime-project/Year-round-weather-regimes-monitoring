@@ -1,6 +1,8 @@
 #!/bin/bash
 
-source /opt/metwork-mfext-2.3/share/profile
+chemin_absolu = "/Year-round-weather-regimes-monitoring"      # chemin absolu jusqu'au dossier Year-round-weather-regimes-monitoring
+
+source chemin_absolu/.venv/bin/activate
 sleep 10
-cd /home/mcbd/voisinl/WWW/scripts
-python3 Fonctions_composites.py
+cd chemin_absolue/scripts
+python3 plotting_composites.py
