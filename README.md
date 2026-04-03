@@ -142,7 +142,13 @@ Ce programme plot les histogrammes du suivi climatique des deux derniers mois.
 gedit daily-tasks.py
 ```
 
-6) Le script recuperer_nouvelles_donnees.py permet de récupérer les données du jour et vous pouvez mettre en place un cron pour le faire tourner automatiquement.
+6) Le script recuperer_nouvelles_donnees.py permet de récupérer les données du jour et vous pouvez mettre en place un cron journalier pour le faire tourner automatiquement ainsi que la récupération des données avec recuperer_nouvelles_donnees.py.
+   
+7) Vous pouvez également faire tourner le temps réel avec l'analyse CEP cependant il n'est pas possible de récupérer les données facilement en dehors de celles récentes donc dans l'idéal vous devez faire tourner le script de récupération de données pendant 11 jours avant d'avoir une courbe (à cause du filtrage). Pour lancer daily-tasks.py avec CEP (ne produit que le graphique avec la courbe et les bulles) vous devez faire la commande suivante :
+```
+python3 daily-tasks.py --datatype AnaCEP
+```
+8) Enfin si vous pensez avoir tout ce dont vous avez besoin amusez vous sur le site en ouvrant le fichier menu.html dans votre navigateur préféré.
 
 ## Support
 Si vous avez des questions, voici les personnes à contacter :
