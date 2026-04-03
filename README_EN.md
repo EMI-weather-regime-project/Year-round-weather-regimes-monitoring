@@ -1,5 +1,5 @@
 # Year-Round Weather Regimes
-
+'!!!!!! Traduction made with an AI, it may be inaccacurate!!!!!!'
 ## Description
 The objective of this project is to implement the calculation method for “year-round” weather regimes over the North Atlantic, and then to build a real-time website providing climate monitoring products and daily tracking of year-round weather regimes. The code is available on Git, and here is the website link (currently available internally only).
 ## Installation
