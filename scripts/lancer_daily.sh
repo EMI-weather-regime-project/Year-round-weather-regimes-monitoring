@@ -1,8 +1,10 @@
 #!/bin/bash
 
-source /opt/metwork-mfext-2.3/share/profile
+chemin_absolu = "/Year-round-weather-regimes-monitoring"      # chemin absolu jusqu'au dossier Year-round-weather-regimes-monitoring
+
+source chemin_absolu/.venv/bin/activate
 sleep 10
-cd /home/mcbd/voisinl/WWW/scripts
+cd chemin_absolu/scripts
 python3 recuperer_nouvelles_donnees.py
 python3 daily-tasks.py --datatype ERA5
 python3 daily-tasks.py --datatype AnaCEP
