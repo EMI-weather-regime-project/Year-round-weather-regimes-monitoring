@@ -63,7 +63,7 @@ Après avoir cloné le dépôt git, vous devriez avoir cette arborescence-là :
         ├── 📁 AnaCEP/
         └── 📁 ERA5/
 ```
- 
+Pour récupérer les données que nous avons utilisés vous pouvez suivre ce [lien](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview) et ensuite via des commandes cdo :  faire le calcul des moyennes journalières + sélection domaine + remap sur grille 1°
 Si vous souhaitez récupérer les données relatives à seulement quelques années, vous pouvez également suivre la méthodologie du fichier "Recuperation_donnees_exemple.txt", dans lequel nous expliquons les commandes nécessaires pour récupérer les données de précipitations de 2023 à 2025.
 Sinon, vous pouvez nous envoyer un mail, et nous vous enverrons les données 😉.
 
