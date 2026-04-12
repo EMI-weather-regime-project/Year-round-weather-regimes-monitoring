@@ -176,7 +176,7 @@ def repartition_jour_regime(label_indice_slice):
     for k, regime in enumerate(label_indice_slice):
         repartition[regime].append(k)
 
-    # Renvoie une liste, de listes des indices des jours relatif à chaque régime
+    # Renvoie une liste, de listes des indices des jours relatifs à chaque régime
     return repartition 
 
 def fonction_composite(label_indice,drop_feb29,parameter,liste_mois,domaine,mask_on=False): 
